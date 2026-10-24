@@ -1,0 +1,8 @@
+backend/.env
+backend/tesla_tokens.json
+backend/_audio/
+backend/config/
+backend/music/
+__pycache__/
+backend/**/*.pem
+backend/*.pem

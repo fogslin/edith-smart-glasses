@@ -1,0 +1,81 @@
+# ESPHome alternative for the EDITH touch strip (gestures only).
+# ESPHome's esp32_touch supports ESP32-S3 touch pins GPIO1-GPIO14
+# (https://esphome.io/components/binary_sensor/esp32_touch/).
+# 1) Flash once with setup_mode: true, watch the logs, touch each pad,
+#    and set each threshold between the idle and touched readings.
+#    On ESP32-S3 the raw value RISES when touched.
+# 2) Set setup_mode: false.
+esphome:
+  name: edith-touch
+
+esp32:
+  board: seeed_xiao_esp32s3
+  framework:
+    type: esp-idf
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+logger:
+api:
+
+globals:
+  - id: first_pad      # 0 = none, 1 = A (front), 3 = C (rear)
+    type: int
+    initial_value: '0'
+  - id: volume
+    type: float
+    initial_value: '0.6'
+
+esp32_touch:
+  setup_mode: true
+
+binary_sensor:
+  - platform: esp32_touch
+    id: pad_a
+    name: "Touch A (front)"
+    pin: GPIO1          # XIAO D0
+    threshold: 30000    # placeholder - replace with value from setup_mode logs
+    on_press:
+      - lambda: |-
+          if (id(first_pad) == 3) {               // C then A = swipe forward
+            id(volume) = std::min(1.0f, id(volume) + 0.1f);
+            ESP_LOGI("gesture", "swipe forward -> volume %.1f", id(volume));
+            id(first_pad) = 0;
+          } else { id(first_pad) = 1; }
+  - platform: esp32_touch
+    id: pad_b
+    name: "Touch B (middle)"
+    pin: GPIO2          # XIAO D1
+    threshold: 30000
+    on_multi_click:
+      - timing:
+          - ON for at most 280ms
+          - OFF for at most 350ms
+          - ON for at most 280ms
+          - OFF for at least 50ms
+        then:
+          - logger.log: "double tap -> wake Edith"
+      - timing:
+          - ON for at most 280ms
+          - OFF for at least 350ms
+        then:
+          - logger.log: "single tap -> play/pause"
+  - platform: esp32_touch
+    id: pad_c
+    name: "Touch C (rear)"
+    pin: GPIO4          # XIAO D3
+    threshold: 30000
+    on_press:
+      - lambda: |-
+          if (id(first_pad) == 1) {               // A then C = swipe back
+            id(volume) = std::max(0.0f, id(volume) - 0.1f);
+            ESP_LOGI("gesture", "swipe back -> volume %.1f", id(volume));
+            id(first_pad) = 0;
+          } else { id(first_pad) = 3; }
+
+interval:
+  - interval: 700ms      # forget a half-finished swipe
+    then:
+      - lambda: 'id(first_pad) = 0;'
