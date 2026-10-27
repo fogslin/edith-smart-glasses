@@ -5,7 +5,7 @@ const JOINTS = [], WIRE_RT = {}, SCREW_RT = [], GUIDES = [], LABELS = [], FX = [
 const ghostMat = new THREE.MeshBasicMaterial({ color: 0xfff6e6, transparent: true, opacity: 0.3, depthWrite: false });
 const APPROACH = { frame: [0, 1, 0], xiao: [-1, 0.3, 0], sense: [-1, 0.2, 0], cam: [0, 0.2, 1], antenna: [0, 1, 0], battery: [1, 0.3, 0], switch: [0, 1, 0], oled: [0, 1, 0], hud: [0, 1, 0.3],
   hr: [1, 0.3, 0], amp: [1, 0.3, 0], spk: [1, 0.2, 0], padA: [-1, 0.2, 0], padB: [-1, 0.2, 0], padC: [-1, 0.2, 0], button: [0, 1, 0], led: [0, 0.2, 1], coverR: [-1, 0.25, 0], coverL: [1, 0.25, 0],
-  lensR: [0, 0.15, 1], lensL: [0, 0.15, 1], plug: [0, 0.05, -1] };
+  lensR: [0, 0.15, 1], lensL: [0, 0.15, 1], plug: [0, 0.05, -1], podR: [-1, 0.25, 0], podL: [1, 0.25, 0] };
 const PIECE_IDS = [];
 let appearIdx = 0;
 function makePart(id) {
@@ -69,8 +69,8 @@ function addFlight(rt, t0, t1, from, to, opt = {}) {
 /* step-plan API */
 const ironKeys = [], driverKeys = [], tweezKeys = [];
 let driverSpin = 0;
-function api(stepId) {
-  const s0 = S0(stepId);
+function api(stepId, off = 0) {
+  const s0 = S0(stepId) + off;
   const A = {
     s0,
     fly(id, a, b, opt = {}) {
@@ -103,11 +103,20 @@ function api(stepId) {
     screw(id, a, b) { const sc = G.SCREWS[id]; SCREW_RT.push(makeScrew(sc, s0 + a, s0 + b)); return A; },
     cam(a, p, tg) { CAMKEYS.push({ t: s0 + a, p: V(p), tg: V(tg) }); return A; },
     label(a, b, anchor, html, cls) { LABELS.push({ t0: s0 + a, t1: s0 + b, anchor: typeof anchor === "function" ? anchor : () => rig.localToWorld(_v.copy(anchor)), html, cls }); return A; },
-    fx(fn) { FX.push(fn); return A; }
+    fx(fn) { FX.push(fn); return A; },
+    tape(id, a, b, opt = {}) { // foam / Kapton tape pad that drops onto the frame and stays
+      const d = G.TAPE[id], m = mesh(new THREE.BoxGeometry(...d.s), d.kapton ? KAPTON_MAT : FOAM_MAT, false);
+      m.visible = false; rig.add(m); if (d.kapton) noOL(m);
+      TAPES.push({ id, m, p: V(d.c), from: V(d.from), t0: s0 + a, t1: s0 + b, until: d.kapton ? "pods" : null });
+      if (d.name && opt.label !== false) LABELS.push({ t0: s0 + a, t1: s0 + b + (opt.hold || 2.2), anchor: () => rig.localToWorld(_v.set(...d.c)).add(_lo.set(0, 0.05, 0)), html: `${d.name} <code>${d.code}</code>`, cls: "tape" });
+      return A;
+    }
   };
   return A;
 }
 const _v = new THREE.Vector3(), _lo = new THREE.Vector3();
+const TAPES = [];
+const FOAM_MAT = M("#f7f4ec"), KAPTON_MAT = new THREE.MeshLambertMaterial({ color: "#e0962e", transparent: true, opacity: 0.88 });
 
 /* wires */
 const tubeR = 0.0042;
@@ -160,17 +169,24 @@ function carry(rt, t0, t1) {
 (function plan() {
   // 1 · lay out
   let A = api("layout");
-  const order = ["xiao", "sense", "cam", "antenna", "oled", "hud", "lensR", "lensL", "battery", "switch", "padA", "padB", "padC", "button", "led", "ttp", "coverR", "coverL", "hr", "amp", "spk", "plug"];
+  const order = ["podR", "podL", "xiao", "sense", "cam", "antenna", "oled", "hud", "lensR", "lensL", "battery", "switch", "padA", "padB", "padC", "button", "led", "ttp", "coverR", "coverL", "hr", "amp", "spk", "plug"];
   order.forEach((id, i) => { PR[id].appear = A.s0 + 0.3 + i * 0.2; LABELS.push({ t0: PR[id].appear + 0.2, t1: PR[id].appear + 1.3, anchor: () => PR[id].obj.getWorldPosition(_v).add(_lo.set(0, 0.06, 0)), html: `${G.PARTS[id].name} <code>${G.PARTS[id].code}</code>` }); });
   PR.frame.appear = A.s0 + 5.0;
   A.fly("frame", 5.2, 6.9, { lift: 0.1, reach: 0.6, label: { name: "Frame", code: "front + temples", n: "1/1" } })
     .cam(0, [4.0, 3.5, 6.2], [0, 0.3, -0.4]).cam(3.6, [3.7, 2.6, 4.0], [0, 0.15, 0.05]).cam(7.9, [2.35, 2.0, 2.65], [0, 0.25, -0.35]);
   // 2 · tin pads
   A = api("tin");
+  A.fly("podR", 0.3, 1.6, { label: { name: "Right pod shell", code: "epoxy / UV resin to the temple", n: "" } }).tape("foamR", 1.8, 2.6)
+    .cam(0.0, [-2.0, 1.05, 0.75], [-0.74, 0.36, -0.32]).cam(2.9, [-1.6, 0.85, 0.45], [-0.75, 0.36, -0.32]);
+  A = api("tin", 3.0);
   A.fly("xiao", 0.4, 2.2).solder(G.TIN, 2.8, 0.45, "tin")
     .cam(1.2, [-2.1, 1.15, 0.9], [-0.62, 0.35, -0.35]).cam(8.9, [-1.5, 0.72, 0.28], [-0.77, 0.38, -0.34]);
   // 3 · battery
   A = api("battery");
+  A.fly("podL", 0.3, 1.6, { label: { name: "Left pod shell", code: "epoxy / UV resin to the temple", n: "" } }).tape("foamL", 1.8, 2.6, { hold: 2.6 })
+    .label(2.8, 5.4, V(0.80, G.TY + 0.14, -0.80), "Snug pocket <code>never squeeze or hot-glue a LiPo</code>", "joint")
+    .cam(0.0, [1.95, 1.0, -0.35], [0.76, 0.36, -0.78]).cam(2.9, [1.6, 0.85, -0.5], [0.77, 0.36, -0.8]);
+  A = api("battery", 3.0);
   A.fly("battery", 0.3, 1.9).fly("switch", 1.4, 2.9, { tweezers: true })
     .wire("p_bat", 3.0, 3.6).solder(["p_bat:b"], 3.8, 1).solder(["p_sw:a"], 4.5, 1)
     .wire("p_sw", 4.8, 6.6).wire("p_gnd", 5.0, 6.8).solder(["p_sw:b", "p_gnd:b"], 7.6, 0.8)
@@ -199,6 +215,8 @@ function carry(rt, t0, t1) {
     .cam(1.0, [0.3, 1.0, -0.2], [-0.68, 0.33, -0.58]).cam(8.9, [-0.05, 0.75, -0.78], [-0.69, 0.33, -0.6]);
   // 8 · audio
   A = api("audio");
+  A.tape("foamAmp", 0.2, 1.2).cam(0.0, [0.25, 1.0, 0.05], [-0.69, 0.32, -0.36]);
+  A = api("audio", 1.5);
   A.fly("amp", 0.3, 1.7).fly("spk", 1.4, 2.8)
     .wire("a_lrc", 2.9, 4.2).wire("a_bclk", 3.05, 4.35).wire("a_din", 3.2, 4.5).wire("a_gnd", 3.35, 4.65).wire("a_vin", 3.5, 4.8).wire("s_p", 3.7, 4.9).wire("s_n", 3.85, 5.05)
     .solder(["a_lrc:a", "a_bclk:a", "a_din:a", "a_gnd:a", "a_vin:a", "a_lrc:b", "a_bclk:b", "a_din:b", "a_gnd:b", "a_vin:b", "s_p:a", "s_n:a", "s_p:b", "s_n:b"], 5.2, 0.32)
@@ -219,6 +237,7 @@ function carry(rt, t0, t1) {
     .cam(1.0, [-1.55, 1.15, 0.65], [-0.8, 0.42, -0.3]).cam(7.9, [-1.3, 0.88, 0.3], [-0.8, 0.42, -0.3]);
   // 11 · hinge routing
   A = api("hinge");
+  A.tape("kapL", 0.4, 1.2, { hold: 2.6 }).tape("kapB", 0.7, 1.5, { label: false }).tape("kapR", 1.0, 1.8, { label: false });
   GUIDES.push(guideLine(WIRE_RT.p_sw.curve.getPoints(120), A.s0 + 0.4, A.s0 + 7.8, rig)); GUIDES[GUIDES.length - 1].lead = 2.6;
   A.label(1.0, 7.8, V(0.69, G.TY + 0.075, -0.05), "Service loop <code>L hinge</code>").label(1.0, 7.8, V(-0.69, G.TY + 0.075, -0.05), "Service loop <code>R hinge</code>")
     .label(1.4, 7.8, V(0, 0.48, -0.045), "Brow groove <code>BAT+ / BAT−</code>")
@@ -227,7 +246,10 @@ function carry(rt, t0, t1) {
     .cam(5.7, [-1.3, 0.85, 0.55], [-0.7, 0.38, -0.05]).cam(7.9, [-1.22, 0.8, 0.5], [-0.7, 0.38, -0.05]);
   // 12 · pods
   A = api("pods");
-  A.fly("coverR", 0.4, 2.1).fly("coverL", 1.6, 3.3).screw("cR1", 3.8, 4.8).screw("cR2", 5.0, 6.0).screw("cL1", 6.6, 7.4).screw("cL2", 7.7, 8.5)
+  A.label(0.2, 2.4, V(-0.80, G.TY + 0.22, -0.33), "Lid = printed cover <code>clamps parts on their foam tape</code>", "tape")
+    .label(2.2, 4.8, V(-0.84, G.TY + 0.20, -0.205), "Screws bite into the shell's bosses <code>M1.4</code>", "tape")
+    .label(3.3, 8.9, V(0.80, G.TY + 0.17, -0.80), "Lid closed <code>LiPo held by pocket + foam, not glue</code>", "tape")
+    .fly("coverR", 0.4, 2.1).fly("coverL", 1.6, 3.3).screw("cR1", 3.8, 4.8).screw("cR2", 5.0, 6.0).screw("cL1", 6.6, 7.4).screw("cL2", 7.7, 8.5)
     .cam(1.0, [-2.3, 1.7, 1.2], [0, 0.35, -0.5]).cam(3.3, [-2.25, 1.65, 1.15], [0, 0.35, -0.5]).cam(3.9, [-1.5, 1.05, 0.25], [-0.82, 0.42, -0.33]).cam(6.0, [-1.45, 1.0, 0.2], [-0.82, 0.42, -0.33])
     .cam(6.6, [1.65, 1.05, -0.45], [0.79, 0.38, -0.8]).cam(8.9, [1.55, 0.98, -0.5], [0.79, 0.38, -0.8]);
   // 13 · charging port
@@ -308,7 +330,8 @@ JOINTS.forEach(j => { if (j.kind !== "tin") HW_EVENTS.push({ t: j.t, cat: "Solde
 ["padA", "padB", "padC"].forEach(id => HW_EVENTS.push({ t: PR[id].flights[0].t1, cat: "Foil pads" }));
 SCREW_RT.forEach(s => HW_EVENTS.push({ t: s.t1, cat: "Screws" }));
 Object.values(WIRE_RT).forEach(w => HW_EVENTS.push({ t: w.t1, cat: "Wires" }));
-const HW_CATS = ["Solder joints", "Wires", "Foil pads", "Screws"];
+TAPES.forEach(tp => HW_EVENTS.push({ t: tp.t1, cat: "Tape pads" }));
+const HW_CATS = ["Solder joints", "Wires", "Foil pads", "Screws", "Tape pads"];
 const HW_TOTAL = HW_EVENTS.length;
 const PIECE_T = PIECE_IDS.map(id => PR[id].flights[0].t1);
 function counts(t) {

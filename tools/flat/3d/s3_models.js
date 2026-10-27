@@ -100,8 +100,25 @@ const BUILD = {
   lens() { const R = G.RIM; const geo = new THREE.ExtrudeGeometry(roundRectShape(R.iw + 0.014, R.ih + 0.014, R.ir + 0.006), { depth: 0.012, bevelEnabled: false, curveSegments: 12 }); geo.translate(0, 0, -0.006);
     const m = new THREE.MeshLambertMaterial({ color: "#d9eef4", transparent: true, opacity: 0.26, depthWrite: false }); const l = mesh(geo, m, false); noOL(l); const g = new THREE.Group(); g.add(l); g.userData.mat = m; return g; },
   plug() { const g = new THREE.Group(); const b = box(0.06, 0.08, 0.09, M("#2c2c30"), 0.02); at(b, 0, 0, -0.04); g.add(b); const t = box(0.028, 0.07, 0.04, METAL, 0.012); at(t, 0, 0, 0.02); g.add(t); return g; },
+  podR() { return podShell("podR", -1); },
+  podL() { return podShell("podL", 1); },
   frame() { return null; }
 };
+/* printed pod shell: base plate (bonded to the temple) + top/bottom rails + rear wall + screw bosses for the lid */
+const PLA_SHELL = M("#c9d0da");
+function podShell(id, side) {
+  const p = G.PARTS[id], c = p.c, s = p.s, g = new THREE.Group();
+  g.add(box(s[0], s[1], s[2], PLA_SHELL, 0.0015));
+  const d = 0.028, rx = side * (s[0] / 2 + d / 2);
+  [-1, 1].forEach(e => { const r = box(d, 0.006, s[2], PLA_SHELL, 0.002); at(r, rx, e * (s[1] / 2 - 0.003), 0); g.add(r); });
+  const back = box(d, s[1], 0.006, PLA_SHELL, 0.002); at(back, rx, 0, -s[2] / 2 + 0.003); g.add(back);
+  Object.values(G.SCREWS).filter(sc => sc.step === "pods" && Math.sign(sc.c[0]) === side).forEach(sc => {
+    const lx = sc.c[0] - c[0], ly = sc.c[1] - c[1] - 0.009, lz = sc.c[2] - c[2];
+    const boss = cyl(0.012, 0.012, 0.012, PLA_SHELL, 12); at(boss, lx, ly, lz); g.add(boss);
+    const rib = box(Math.abs(lx), 0.006, 0.01, PLA_SHELL); at(rib, lx / 2, ly, lz); g.add(rib);
+  });
+  return g;
+}
 // HUD text texture (OLED + virtual image)
 const hudTex = canvasTex(512, 256, (g, W, H) => { g.fillStyle = "#000"; g.fillRect(0, 0, W, H); });
 function drawHud(text, sub) { const c = hudTex.userData.ctx; c.fillStyle = "#000"; c.fillRect(0, 0, 512, 256); c.fillStyle = "#7dfcff"; c.font = "700 74px 'JetBrains Mono', monospace"; c.fillText(text, 24, 110); c.font = "500 46px 'JetBrains Mono', monospace"; c.fillStyle = "#c8ffff"; c.fillText(sub, 24, 200); hudTex.needsUpdate = true; }

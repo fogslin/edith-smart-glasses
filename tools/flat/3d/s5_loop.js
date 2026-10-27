@@ -149,6 +149,9 @@ function evaluate(t, dt) {
   // screws
   SCREW_RT.forEach(s => { const on = t >= s.t0 - 0.45; s.g.visible = on; if (!on) return; const f = clamp01((t - s.t0) / (s.t1 - s.t0));
     const pre = clamp01((t - s.t0 + 0.45) / 0.45); s.g.position.copy(s.p).add(_w.set(0, 0.045 * (1 - pre) + 0.012 * (1 - f), 0)); s.g.rotation.y = f * Math.PI * 8; });
+  // foam / Kapton tape pads (Kapton hides with the wires once the pods are closed)
+  TAPES.forEach(tp => { const on = t >= tp.t0 && (!tp.until || t < tPods); tp.m.visible = on; if (!on) return;
+    const f = easeIO2(clamp01((t - tp.t0) / (tp.t1 - tp.t0))); tp.m.position.copy(tp.p).addScaledVector(tp.from, 1 - f); });
   // tools
   trackAt(IRON_T, t, toolPose); iron.position.copy(toolPose.p); iron.quaternion.copy(toolPose.q);
   iron.userData.glow.material.opacity = toolPose.rest ? 0.25 : 0.55 + 0.45 * toolPose.touch; iron.userData.glow.scale.setScalar(toolPose.touch ? 0.075 : 0.05);
