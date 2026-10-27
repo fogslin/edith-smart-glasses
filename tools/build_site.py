@@ -69,11 +69,62 @@ def docs_parts():
     return scoped, html
 
 
+BLINK = """// Week 2: your first program. The XIAO's small orange user LED is on GPIO21 (LED_BUILTIN).
+void setup() {
+  pinMode(LED_BUILTIN, OUTPUT);
+  Serial.begin(115200);
+}
+
+void loop() {
+  digitalWrite(LED_BUILTIN, LOW);   // this LED is "active low": LOW = on
+  Serial.println("LED on");
+  delay(500);
+  digitalWrite(LED_BUILTIN, HIGH);  // HIGH = off
+  Serial.println("LED off");
+  delay(500);
+}
+"""
+BACKEND_MAC = """# macOS / Linux (Terminal). Start inside the project folder you downloaded.
+cd backend
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env
+# now edit .env (API keys + DEVICE_TOKEN), then start the server:
+uvicorn server:app --host 0.0.0.0 --port 8000
+# next time: cd backend && source .venv/bin/activate && uvicorn server:app --host 0.0.0.0 --port 8000
+"""
+BACKEND_WIN = """# Windows (PowerShell). Start inside the project folder you downloaded.
+cd backend
+py -m venv .venv
+.venv\\Scripts\\activate
+# (if PowerShell refuses to run the activate script: Set-ExecutionPolicy -Scope CurrentUser RemoteSigned)
+pip install -r requirements.txt
+copy .env.example .env
+# now edit .env (API keys + DEVICE_TOKEN), then start the server:
+uvicorn server:app --host 0.0.0.0 --port 8000
+"""
+
+
+def beginner_html(bt: bool) -> str:
+    """The 'Start here: complete beginner' docs section. <!--BT-->...<!--/BT--> blocks only appear in bluetooth.html."""
+    h = (FL / "beginner.html").read_text()
+    h = re.sub(r"<!--BT-->(.*?)<!--/BT-->", (lambda m: m.group(1)) if bt else "", h, flags=re.S)
+    h = h.replace("__BEG_BLINK__", classic.codeblock("blink.ino: first test sketch", BLINK))
+    h = h.replace("__BEG_BACKEND__", classic.codeblock("Backend: macOS / Linux", BACKEND_MAC) + classic.codeblock("Backend: Windows (PowerShell)", BACKEND_WIN))
+    assert "__BEG" not in h and "<!--BT" not in h
+    return h
+
+
+CLASSIC_FILES = ("geo.js", "steps.js", "manual.js", "docs.js", "beginner.js", "ui.js")
+
+
 def main():
     css, docs_html = docs_parts()
+    docs_html = beginner_html(False) + "\n" + docs_html
     head = (FL / "head.html").read_text().replace("__DOCS_CSS__", css)
     body = (FL / "body.html").read_text().replace("__DOCS_HTML__", docs_html)
-    classic_js = "\n".join((FL / f).read_text() for f in ("geo.js", "steps.js", "manual.js", "docs.js", "ui.js"))
+    classic_js = "\n".join((FL / f).read_text() for f in CLASSIC_FILES)
     module_js = "\n".join(p.read_text() for p in sorted((FL / "3d").glob("s*.js")))
     watchdog = """
 setTimeout(function () {
