@@ -1,0 +1,119 @@
+<section id="beginner">
+  <h2><span class="num">★</span> Start here: complete beginner</h2>
+  <p class="lead">Never soldered, coded or built electronics before? This section is written for you. No experience assumed; every new word is explained (or in the <a href="#beg-glossary">glossary</a>).</p>
+  <div class="honest">This is a hard first project: about <b>8 out of 10</b> for someone starting from zero. The parts are tiny, the frame is cramped, and a LiPo battery needs respect. It is absolutely learnable, but not in a weekend. The trick is to <b>never do two new things at once</b>: learn soldering on a practice kit, learn coding on a blinking LED, and get the whole circuit working on your desk <b>before</b> anything goes into the glasses. Expect a month or more of evenings, a few failed joints, and at least one “why won't it upload?” moment. That's normal.</div>
+
+  <h3>Your staged plan (tick things off as you go)</h3>
+  <ol class="steps" data-group="beg">
+    <li data-id="beg-w1"><div class="body"><b>Week 1 · Practice soldering.</b> Buy the <a href="#beg-tools">tools</a>, read <a href="#beg-solder">Soldering 101</a>, then build the practice kit. Afterwards solder 20+ header pins onto scrap and join a few pairs of wires. Stop when your joints look like shiny little volcanoes every time.</div></li>
+    <li data-id="beg-w2"><div class="body"><b>Week 2 · Coding basics.</b> Follow <a href="#beg-code">Coding 101</a>: install Arduino IDE 2, make the XIAO blink its own LED, then flash the EDITH firmware and watch its messages in the Serial Monitor. Nothing is wired yet, and that's fine: the firmware just reports what's missing.</div></li>
+    <li data-id="beg-w3"><div class="body"><b>Week 3 · Desk prototype (no soldering into the glasses).</b> Solder header pins onto the XIAO and each breakout, then plug everything into a breadboard using the <a href="#beg-proto">desk wiring table</a>, one part at a time, testing after each: <b>OLED</b> → <b>heart rate</b> → <b>amp + speaker</b> → <b>touch pads</b> → the <b>AI backend</b> on your computer.<!--BT--> <b>Bluetooth version:</b> add the BT module (and its PAM8302 amp) on the desk <b>last</b>, only after everything else works.<!--/BT--></div></li>
+    <li data-id="beg-w4"><div class="body"><b>Week 4+ · Shrink it into the frame.</b> Only when the desk version works end to end. Follow the 16-step 3D manual: bond the <a href="#beg-mount">pod shells</a>, foam-tape the boards, swap jumper wires for short 30 AWG wires one connection at a time, re-test, then the battery last, then close the lids.</div></li>
+  </ol>
+  <div class="note">Why stages? When something doesn't work (it will), you only have one new thing to suspect. On the desk you can see and touch every wire; inside a glasses temple you can't.</div>
+
+  <h3 id="beg-tools">1 · Tools shopping list</h3>
+  <p>One-time tools, not EDITH parts (those are in <a href="#parts">Parts &amp; prices</a>). Every link below returned HTTP 200 when checked on 2026-10-26; prices are the listed prices seen that day, before shipping and tax, and they change.</p>
+  <div class="tablewrap"><table id="begTools"><thead><tr><th>Tool</th><th>Price</th><th>Link</th></tr></thead><tbody></tbody></table></div>
+  <p class="small muted" id="begToolsTotal"></p>
+  <p class="small">Also handy for week 4 (no verified links, estimates): double-sided foam tape (≈ $5), Kapton tape (≈ $5–10), 2-part epoxy or UV resin (≈ $5–15), wire strippers for 30 AWG (≈ $10–25), 30 AWG silicone wire and heat-shrink (in the parts list).</p>
+
+  <h3 id="beg-solder">2 · Soldering 101</h3>
+  <p><b>Soldering</b> joins two metal parts with a tiny bit of melted metal alloy (solder). Done right, the joint is both a glue and a wire. It's a hand skill like handwriting: 30 minutes of practice makes a huge difference.</p>
+  <div class="warn"><b>Safety first.</b>
+    <br>• <b>Hot iron:</b> the tip is ~350 °C. It goes back in its stand every time you let go. Treat it as hot even when it's “off”. If it falls, let it fall; never catch it.
+    <br>• <b>LiPo batteries</b> store a lot of energy. Punctured, squeezed, shorted or overheated, they can swell, smoke and catch fire. Never touch the iron to the battery, never solder directly on its pouch tabs, cut its two wires <b>one at a time</b> (cutting both at once shorts them through the cutter), and keep it out of the build until week 4. A puffy battery is finished: stop and recycle it.
+    <br>• <b>Ventilation:</b> the smoke is flux, not lead, but it irritates lungs and eyes. Window open, fan pulling the smoke away from your face.
+    <br>• <b>Wash your hands</b> after using leaded solder, and no food or drink at the bench.
+    <br>• <b>Safety glasses</b> on: clipped wire ends fly.</div>
+  <ol class="steps" data-group="beg-sol">
+    <li data-id="beg-s1"><div class="body"><b>Set up.</b> Iron at ~330–350 °C (leaded 60/40 solder). Wipe the tip on the brass sponge (it is used dry, no water), then melt a little solder onto the tip so it's shiny (that's <i>tinning the tip</i>).</div></li>
+    <li data-id="beg-s2"><div class="body"><b>Flux.</b> Dab the flux pen on the pad and wire. Flux cleans the metal so solder flows.</div></li>
+    <li data-id="beg-s3"><div class="body"><b>Heat the pad and the wire together.</b> Touch the tip so it presses on <i>both</i> at once for 1–2 seconds. You heat the parts, not the solder.</div></li>
+    <li data-id="beg-s4"><div class="body"><b>Feed the solder into the joint</b> (the side opposite the tip, not onto the iron). It should melt and flow around the joint on its own. Feed a little, then take the solder away, then the iron. Whole thing: 2–4 seconds. Don't move it for a few seconds while it cools.</div></li>
+    <li data-id="beg-s5"><div class="body"><b>Inspect.</b> Good: a <b>shiny, smooth little cone or volcano</b> that hugs the pin and the pad. Bad: a <b>round blob</b> sitting on top (not enough heat, or the pad wasn't heated), a <b>dull, grainy</b> joint (moved while cooling: reheat it), or solder that never touched the pad.</div></li>
+    <li data-id="beg-s6"><div class="body"><b>Tinning wires.</b> Strip ~2 mm of insulation, twist the strands, add flux, heat the wire and let a little solder soak in. A tinned wire then joins a tinned pad in one quick touch.</div></li>
+    <li data-id="beg-s7"><div class="body"><b>Fixing a bridge</b> (solder accidentally joining two neighbouring pads): flux, lay the solder wick on the bridge, press the iron on the wick for 2–3 seconds. The braid soaks up the solder; lift wick and iron together. Cut off the used part of the wick.</div></li>
+    <li data-id="beg-s8"><div class="body"><b>Practise before real parts.</b> Practice kit first, then header pins on scrap, then the XIAO's header pins (week 3). Check every joint with the multimeter's beep mode: neighbouring pins must <b>not</b> beep together.</div></li>
+  </ol>
+  <p class="small">Good picture guides: <a href="https://learn.adafruit.com/adafruit-guide-excellent-soldering" target="_blank" rel="noopener">Adafruit Guide to Excellent Soldering</a> · <a href="https://learn.sparkfun.com/tutorials/how-to-solder-through-hole-soldering" target="_blank" rel="noopener">SparkFun: How to Solder</a> · <a href="https://learn.adafruit.com/li-ion-and-lipoly-batteries" target="_blank" rel="noopener">Adafruit: LiPo battery basics</a>.</p>
+
+  <h3 id="beg-code">3 · Coding 101 (Arduino IDE)</h3>
+  <p>The <b>firmware</b> is the program that runs on the XIAO. You don't have to write it, only install it. Arduino IDE 2 is a free app that turns the code into something the chip runs and sends it over USB.</p>
+  <ol class="steps" data-group="beg-code">
+    <li data-id="beg-c1"><div class="body"><b>Install Arduino IDE 2</b> from <a href="https://www.arduino.cc/en/software" target="_blank" rel="noopener">arduino.cc/en/software</a> (Windows, macOS or Linux). <a href="https://docs.arduino.cc/software/ide-v2/tutorials/getting-started/ide-v2-downloading-and-installing/" target="_blank" rel="noopener">Install help</a>.</div></li>
+    <li data-id="beg-c2"><div class="body"><b>Add the ESP32 boards.</b> <b>File → Preferences</b> (macOS: <b>Arduino IDE → Settings</b>) → <i>Additional boards manager URLs</i>, paste:<br><code>https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json</code><br>Then <b>Tools → Board → Boards Manager</b>, search <i>esp32</i>, install <b>esp32 by Espressif Systems</b> (version 3.x).</div></li>
+    <li data-id="beg-c3"><div class="body"><b>Pick the board:</b> <b>Tools → Board → esp32 → XIAO_ESP32S3</b>. Then in the same Tools menu set <b>PSRAM → OPI PSRAM</b> (the camera and audio need this extra memory) and <b>USB CDC On Boot → Enabled</b> (lets the board talk to the Serial Monitor over USB).</div></li>
+    <li data-id="beg-c4"><div class="body"><b>Plug in</b> the XIAO with a <i>data</i> USB cable. <b>Tools → Port</b>: pick the new entry that appears (COM3 or similar on Windows, <code>/dev/cu.usbmodem…</code> on macOS, <code>/dev/ttyACM0</code> on Linux).</div></li>
+    <li data-id="beg-c5"><div class="body"><b>First program: blink.</b> <b>File → New Sketch</b>, replace everything with the code below, click <b>Upload</b> (the → arrow). The small orange LED on the XIAO should blink. Open the <b>Serial Monitor</b> (magnifier icon, top right), set it to <b>115200 baud</b>: you'll see on / off messages. You just programmed a microcontroller.</div></li>
+    <li data-id="beg-c6"><div class="body"><b>Install the libraries the EDITH sketch uses</b> (<b>Tools → Manage Libraries</b>, search each name, click Install, accept “install dependencies”): <b>Adafruit SSD1306</b>, <b>Adafruit GFX Library</b>, <b>ArduinoJson</b> (version 7), <b>SparkFun MAX3010x Pulse and Proximity Sensor Library</b>. The other includes (<code>WiFi.h</code>, <code>HTTPClient.h</code>, <code>Wire.h</code>, <code>esp_camera.h</code>, <code>ESP_I2S.h</code>) come with the ESP32 boards package: don't install anything for them.</div></li>
+    <li data-id="beg-c7"><div class="body"><b>Open the EDITH firmware:</b> <code>firmware/edith_glasses/edith_glasses.ino</code><!--BT--> (Bluetooth version: <code>firmware/edith_glasses_bt/edith_glasses_bt.ino</code>)<!--/BT-->. The folder name must match the file name, so open it from that folder. Near the top, fill in your Wi-Fi name and password, <code>BACKEND_URL</code> (your computer's address, step 9) and <code>DEVICE_TOKEN</code> (any long random password; the same one goes in the backend's <code>.env</code>). Upload.</div></li>
+    <li data-id="beg-c8"><div class="body"><b>Read the Serial Monitor</b> (115200). You'll see a line like <code>cam=1 oled=0 pulse=0 spk=1 psram=8388608</code>. <code>oled=0</code> and <code>pulse=0</code> just mean “not found yet”: they flip to <code>1</code> when you wire those parts in week 3. (<code>spk=1</code> only means the sound output started; you'll know the amp works when you hear it.) If <code>psram=0</code>, the PSRAM setting is wrong.</div></li>
+  </ol>
+  __BEG_BLINK__
+  <div class="note"><b>Upload failed or no port shows up?</b> Work down this list: (1) try a different USB cable: charge-only cables are the #1 cause; (2) another USB port, no hub; (3) <b>hold the BOOT button</b> (the tiny button marked B), plug the USB cable in, <b>then release BOOT</b>: the XIAO is now in download mode, re-select the port and Upload again, then press RESET (R) when it finishes; (4) check Board = XIAO_ESP32S3; (5) Linux only: add yourself to the <code>dialout</code> group and log out/in. Still stuck? Copy the red error text and see <a href="#beg-mistakes">when to ask for help</a>.</div>
+
+  <h3>Backend 101 (the AI on your computer)</h3>
+  <p>The glasses are small; the thinking happens on your computer. The <b>backend</b> is a small Python program (FastAPI) that receives the glasses' audio and photos, turns speech into text (Whisper), asks an AI model (LLM) for an answer, and turns that answer back into speech (TTS). You run it in a terminal window; the glasses talk to it over Wi-Fi.</p>
+  <ol class="steps" data-group="beg-be">
+    <li data-id="beg-b1"><div class="body"><b>Install Python 3.10 or newer</b> from <a href="https://www.python.org/downloads/" target="_blank" rel="noopener">python.org/downloads</a>. On Windows tick <b>“Add python.exe to PATH”</b> in the installer (<a href="https://docs.python.org/3/using/windows.html" target="_blank" rel="noopener">details</a>). For the music feature also install <a href="https://ffmpeg.org/download.html" target="_blank" rel="noopener">ffmpeg</a>.</div></li>
+    <li data-id="beg-b2"><div class="body"><b>Open a terminal</b> (Windows: PowerShell; macOS: Terminal; Linux: any terminal) and copy-paste the commands below for your system, one line at a time. They make a private Python workspace (<code>.venv</code>), install what the backend needs, and copy the settings template.</div></li>
+    <li data-id="beg-b3"><div class="body"><b>Put your API keys in <code>.env</code>.</b> Open <code>backend/.env</code> in any text editor and replace the placeholders: <code>LLM_API_KEY</code> (e.g. an xAI key), <code>STT_API_KEY</code> and <code>TTS_API_KEY</code> (e.g. OpenAI keys), and <code>DEVICE_TOKEN</code> (the same random password you put in the sketch). An <b>API key</b> is a password for a paid online AI service: these services bill per use, so never share the key, post it, or put <code>.env</code> on GitHub.</div></li>
+    <li data-id="beg-b4"><div class="body"><b>Start it</b> with the <code>uvicorn</code> line, then open <a href="http://localhost:8000/health" target="_blank" rel="noopener">http://localhost:8000/health</a> in a browser: a short OK reply means it's running. Leave that terminal window open while you use the glasses.</div></li>
+    <li data-id="beg-b5"><div class="body"><b>Tell the glasses where it is.</b> Find your computer's local IP address (Windows: <code>ipconfig</code>; macOS/Linux: <code>ifconfig</code> or <code>ip addr</code>; it looks like 192.168.1.50), put <code>http://THAT-IP:8000</code> into <code>BACKEND_URL</code> in the sketch, upload again, and allow port 8000 if your firewall asks. Computer and glasses must be on the same Wi-Fi.</div></li>
+  </ol>
+  __BEG_BACKEND__
+  <p class="small">Full details, endpoints and remote access: <a href="#backend">Backend (FastAPI)</a>. Firmware details: <a href="#firmware">Firmware</a>.</p>
+
+  <h3 id="beg-proto">4 · Desk prototype wiring (week 3)</h3>
+  <p>A <b>breadboard</b> has hidden metal strips: each short row of 5 holes is connected, the long red/blue lines along the edges are the power <b>rails</b>, and nothing crosses the centre gap. Push the XIAO in so it <b>straddles the centre gap</b> (otherwise both sides of the board get shorted together). The pins below are <b>exactly the same</b> as in the finished glasses (<a href="#gpio">GPIO table</a>), so the firmware doesn't change and the wiring transfers 1:1 when you shrink it.</p>
+  <div class="tablewrap"><table id="begProto"><thead><tr><th>Part</th><th>Its pin</th><th>Goes to</th><th>Wire colour</th><th>Notes</th></tr></thead><tbody></tbody></table></div>
+  <div class="note">Add <b>one part at a time</b>: unplug USB, wire it, double-check against the table, plug in, read the Serial Monitor (after the OLED or heart sensor, its <code>oled=</code> / <code>pulse=</code> value should go from 0 to 1), then try it. The OLED shows text, the heart sensor's BPM appears when you rest a fingertip on it, the speaker plays Edith's voice once the backend runs, and at boot the Serial Monitor prints a baseline value for each touch pad (then try the gestures in <a href="#touch">Touch strip</a>). <a href="https://learn.adafruit.com/breadboards-for-beginners" target="_blank" rel="noopener">Breadboards for beginners (Adafruit)</a>.</div>
+  <!--BT--><div class="verify">The Bluetooth rows (★) are part of the <b>hypothetical</b> BT variant: not built or tested. Check each pin against the module's wiki before powering it (see <a href="#bt-variant">Bluetooth module &amp; wiring</a>).</div><!--/BT-->
+
+  <h3 id="beg-mount">5 · How everything is held in place</h3>
+  <p>In the 3D build, parts seem to just “land” on the frame. In real life each part is held by something. Here's the whole system, in the order the 3D steps now show it:</p>
+  <div class="grid g2">
+    <div class="feature"><span class="tag">1 · pod shells</span><b>3D-printed pods, bonded to the temple</b>Each temple gets a small printed tray (a “pod shell”) shaped to it. No 3D printer? Upload the model to an online 3D-printing service, or ask a library or makerspace. Rough up the contact area with sandpaper, clean it with isopropyl alcohol, then bond the shell with <b>2-part epoxy</b> or <b>UV resin</b>. If you'd rather not glue your frame, design the pod to <b>clip</b> or strap around the temple instead.</div>
+    <div class="feature"><span class="tag">2 · battery</span><b>LiPo in a snug pocket on foam tape</b>The battery sits in a pocket in the left shell, on a pad of <b>double-sided foam tape</b>. The pocket stops it sliding; the lid stops it lifting. <b>Never hot-glue a LiPo, never squeeze it into a tight spot, never pierce it</b>: heat and pressure damage the cell, and LiPos can swell slightly with age, so leave a hair of room.</div>
+    <div class="feature"><span class="tag">3 · boards</span><b>Boards on foam tape (or one dab of hot glue on the board)</b>The XIAO, amp<!--BT-->, BT module<!--/BT--> and other boards stick down on small pads of double-sided foam tape, which also insulates their backs. Alternative: a small dab of hot glue on the board's edge, never on the battery.</div>
+    <div class="feature"><span class="tag">4 · wires</span><b>Wires held flat with Kapton tape</b>Short strips of <b>Kapton tape</b> (heat-proof, orange) hold the wire bundles flat along the temple. That's <b>strain relief</b>: if a wire gets tugged, the tape takes the pull instead of the tiny solder joint. Add a drop of hot glue or UV resin where each wire leaves a pad, and leave a service loop at each hinge.</div>
+    <div class="feature"><span class="tag">5 · lid</span><b>The lid screws shut and clamps it all</b>A printed cover (lid) drops over each shell and tiny <b>M1.4 screws</b> go into the shell's screw bosses (little posts). The lid presses the boards and battery onto their foam tape so nothing rattles, and it comes off again for repairs.</div>
+    <div class="feature"><span class="tag">check</span><b>Before you close a lid</b>Multimeter beep test: battery + to −, and 3V3 to GND, must <b>not</b> beep. Fold the temples 20 times and watch the wires bend in their loops, not at a joint.</div>
+  </div>
+
+  <h3 id="beg-glossary">6 · Glossary</h3>
+  <div class="tablewrap"><table>
+    <tr><th>Word</th><th>Plain meaning</th></tr>
+    <tr><td><b>GPIO</b></td><td>“General-purpose input/output”: a pin on the chip that the program can switch on/off or read. D0–D10 on the XIAO are GPIOs (each has a number, e.g. D4 = GPIO5).</td></tr>
+    <tr><td><b>I²C</b> (“I-squared-C”)</td><td>A way for several small parts to share just two wires (SDA = data, SCL = clock). Each part has its own address (OLED 0x3C, heart sensor 0x57).</td></tr>
+    <tr><td><b>I²S</b> (“I-squared-S”)</td><td>A three-wire way to send digital sound (DIN, BCLK, LRC) from the XIAO to the amplifier.</td></tr>
+    <tr><td><b>LiPo</b></td><td>Lithium-polymer battery: a flat, light, rechargeable pouch (3.7 V). Powerful for its size, and dangerous if damaged, shorted or overheated.</td></tr>
+    <tr><td><b>Flux</b></td><td>A cleaning liquid/paste that removes oxide so solder flows and sticks. Rosin-core solder has some inside; the flux pen adds more.</td></tr>
+    <tr><td><b>Tinning</b></td><td>Coating a wire end, a pad or the iron tip with a thin layer of solder first, so the final joint takes one quick touch.</td></tr>
+    <tr><td><b>Breadboard</b></td><td>A plastic board full of spring holes connected in rows: build and change a circuit by pushing wires in, no soldering.</td></tr>
+    <tr><td><b>Firmware</b></td><td>The program that lives on the XIAO (here, <code>edith_glasses.ino</code>). You “flash” or “upload” it over USB.</td></tr>
+    <tr><td><b>Backend</b></td><td>The program on your computer that does the heavy AI work (speech-to-text, the AI model, text-to-speech) and answers the glasses over Wi-Fi.</td></tr>
+    <tr><td><b>API key</b></td><td>A secret password that lets the backend use a paid online AI service. Keep it in <code>.env</code>, never share or upload it.</td></tr>
+    <tr><td><b>Pad / header pin</b></td><td>A pad is a metal spot on a board you solder to. Header pins are little metal posts soldered into a board so it plugs into a breadboard.</td></tr>
+    <tr><td><b>Short / bridge</b></td><td>An accidental connection (often a solder blob) between two things that shouldn't touch. Find it with the multimeter's beep mode.</td></tr>
+  </table></div>
+
+  <h3 id="beg-mistakes">7 · Common beginner mistakes</h3>
+  <ul>
+    <li><b>Charge-only USB cable</b>: no port appears, nothing uploads. Use a known data cable.</li>
+    <li><b>Wrong board settings</b>: not XIAO_ESP32S3, or PSRAM not set to OPI → camera/audio fail or the board keeps rebooting.</li>
+    <li><b>Blob joints</b>: melting solder onto the iron and dabbing it on. Heat the pad and wire, then feed solder into the joint.</li>
+    <li><b>Holding the iron too long</b> (5+ seconds): pads can lift off the board. If a joint won't flow, add flux, wipe the tip, try again.</li>
+    <li><b>Solder bridges</b> between the XIAO's neighbouring pads. Inspect with the magnifier, beep-test, fix with wick.</li>
+    <li><b>XIAO inserted along one breadboard row</b> instead of across the centre gap: shorts every pin pair.</li>
+    <li><b>5 V into 3.3 V parts</b>: the OLED, sensor and amp take <b>3V3</b>, not 5V.</li>
+    <li><b>Speaker lead to GND</b>: the amp's outputs are + and −, neither is ground.</li>
+    <li><b>Battery polarity reversed</b> on the BAT pads: check with the multimeter before soldering. BAT− is the underside pad nearer the USB port.</li>
+    <li><b>Touching the touch pads at power-on</b>: the firmware measures “untouched” values at boot.</li>
+    <li><b>Skipping the desk prototype</b> and building straight into the glasses: when it doesn't work you can't see why.</li>
+    <li><b>Posting your <code>.env</code> or API keys</b> (GitHub, screenshots, forums). Anyone with the key can spend your money.</li>
+    <li><b>Working tired or rushed.</b> Stop for the night. The joint will still be there tomorrow.</li>
+  </ul>
+  <div class="warn"><b>Stop and ask for help when:</b> anything smells burnt, a board or the battery gets hot, or the LiPo looks puffy (unplug, move it away from anything flammable, don't charge it again); you'd have to force a part or connector; uploads still fail after the checklist above; or you're about to cut the battery's plug and solder it to the BAT pads for the first time (have someone experienced watch). Good places: a local makerspace or library maker lab, the <a href="https://forum.seeedstudio.com/" target="_blank" rel="noopener">Seeed forum</a> (XIAO questions), the <a href="https://forum.arduino.cc/" target="_blank" rel="noopener">Arduino forum</a> (upload and code questions), and <a href="https://www.reddit.com/r/AskElectronics/" target="_blank" rel="noopener">r/AskElectronics</a>. Include a clear photo of both sides of your wiring and the exact error text.</div>
+</section>

@@ -114,6 +114,22 @@
     ttp:     { name: "TTP223 module", code: "alt · tap only", mat: [-1.22, 0, -0.78] },
     plug:    { name: "USB-C plug", code: "5 V", c: [-0.77, TY + 0.02, -0.49], mat: [-1.30, 0, -1.05] }
   };
+  // printed pod shells: a thin base plate bonded (epoxy / UV resin) to the temple's outer face, same footprint as its cover
+  function podFrom(cov, side) {
+    const th = side < 0 ? 0.0074 : 0.004;
+    return { c: [side * (0.7427 + th / 2), cov.c[1], cov.c[2]], s: [th, cov.s[1] - 0.012, cov.s[2] - 0.012] };
+  }
+  PARTS.podR = Object.assign({ name: "Right pod shell", code: "3D-printed · bonded", mat: [1.05, 0, -0.02] }, podFrom(PARTS.coverR, -1));
+  PARTS.podL = Object.assign({ name: "Left pod shell", code: "3D-printed · bonded", mat: [1.05, 0, -1.0] }, podFrom(PARTS.coverL, 1));
+  // double-sided foam tape under boards / battery, Kapton strips over the wire runs (consumables, not pieces)
+  const TAPE = {
+    foamR:   { c: [-0.7568, TY + 0.02, -0.30], s: [0.0125, 0.11, 0.10], from: [-0.25, 0.08, 0], name: "Double-sided foam tape", code: "holds the XIAO" },
+    foamL:   { c: [0.7476, TY + 0.005, -0.80], s: [0.0018, 0.17, 0.26], from: [0.25, 0.08, 0], name: "Double-sided foam tape", code: "LiPo sits on it · no glue" },
+    foamAmp: { c: [-0.6962, TY - 0.02, -0.33], s: [0.0025, 0.13, 0.15], from: [0.25, 0.08, 0], name: "Foam tape", code: "holds the amp" },
+    kapL:    { c: [0.728, TY + 0.066, -0.25], s: [0.06, 0.003, 0.05], from: [0, 0.2, 0], kapton: true, name: "Kapton tape", code: "holds wires flat" },
+    kapB:    { c: [0, 0.512, -0.042], s: [0.08, 0.003, 0.03], from: [0, 0.2, 0], kapton: true },
+    kapR:    { c: [-0.712, TY + 0.062, -0.12], s: [0.05, 0.003, 0.04], from: [0, 0.2, 0], kapton: true }
+  };
   const SCREWS = {
     hud1:  { c: [-0.645, 0.462, 0.0], step: "hud", name: "Arm screw" },
     hingeL:{ c: [0.70, TY + 0.052, -0.045], step: "hinge", name: "Hinge screw L" },
@@ -125,6 +141,6 @@
   };
   const TIN = ["D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D10", "3V3", "GND"];
   const RIM = { cx: 0.36, cy: 0.23, w: 0.56, h: 0.44, r: 0.13, iw: 0.46, ih: 0.34, ir: 0.09, d: 0.05 };
-  window.FLAT_GEO = { TY, TX, TW, TH, XC, TOP, BOT, pad, C, WIRES, PARTS, SCREWS, TIN, RIM, PADZ, SPK, BTN, LED, SW, SWP, BAT, OP, HP, AP, SP,
+  window.FLAT_GEO = { TY, TX, TW, TH, XC, TOP, BOT, pad, C, WIRES, PARTS, SCREWS, TAPE, podFrom, TIN, RIM, PADZ, SPK, BTN, LED, SW, SWP, BAT, OP, HP, AP, SP,
     temple: { z0: -0.06, z1: -1.30, tipZ: -1.60, tipY: 0.03 } };
 })();

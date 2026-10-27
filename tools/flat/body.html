@@ -8,6 +8,7 @@
   <div class="kicker">STEP BY STEP</div>
   <h1 class="brand">EDITH</h1>
   <p class="intro">DIY AI smart glasses on a XIAO ESP32-S3 Sense, built in 3D in the order the manual shows. Every pad, wire and screw goes where the page puts it.</p>
+  <button class="beg-btn" id="ui-beginner" title="Never soldered or coded? Open the complete-beginner guide"><b>★ Complete beginner? Start here</b><small>tools · soldering · coding · desk prototype</small></button>
   <div class="ctrs">
     <div class="ctr"><span>Step</span><b id="ui-cStep">1</b><i id="ui-cStepT">/16</i></div>
     <div class="ctr"><span>Hardware in</span><b id="ui-cHw">0</b><i id="ui-cHwT">/0</i></div>
@@ -55,7 +56,7 @@
   <kbd>←</kbd> <kbd>→</kbd> / <kbd>[</kbd> <kbd>]</kbd> step · <kbd>space</kbd> play/pause · <kbd>1</kbd>–<kbd>9</kbd> jump · <kbd>M</kbd> manual · <kbd>⇧V</kbd> Room/Drawing · <kbd>⇧K</kbd> Docs<br>
   Drag the scene to look around (free camera); the camera icon toggles it, the frame icon returns to the director.</div>
 
-<div class="corner"><button id="ui-cornerDocs"><svg class="ico" viewBox="0 0 24 24"><path d="M8 4h8l4 4v12H8z"/><path d="M4 8v12h4M16 4v4h4"/></svg>Docs &amp; code</button></div>
+<div class="corner"><button id="ui-cornerBeg" class="beg-corner">★ Start here</button><button id="ui-cornerDocs"><svg class="ico" viewBox="0 0 24 24"><path d="M8 4h8l4 4v12H8z"/><path d="M4 8v12h4M16 4v4h4"/></svg>Docs &amp; code</button></div>
 
 <section class="mv" id="ui-manual" aria-label="Manual viewer">
   <div class="mv-head"><div><small>EDITH · ASSEMBLY MANUAL</small>Step-by-step pages</div>
@@ -71,6 +72,7 @@
   <div style="height:3px;background:#1a2540"><i id="progBar" style="display:block;height:100%;width:0;background:linear-gradient(90deg,#5eead4,#a78bfa)"></i></div>
   <div class="docs-body">
     <nav id="ui-docsNav" aria-label="Docs sections">
+      <div class="grp">★ Start here</div><a href="#beginner" class="beg-nav">★ Complete beginner</a><a href="#beg-tools">Tools to buy</a><a href="#beg-solder">Soldering 101</a><a href="#beg-code">Coding 101 + backend</a><a href="#beg-proto">Desk prototype</a><a href="#beg-mount">How parts are held</a><a href="#beg-glossary">Glossary</a><a href="#beg-mistakes">Mistakes &amp; help</a>
       <div class="grp">Start</div><a href="#overview">Overview</a><a href="#parts">Parts &amp; prices</a><a href="#gpio">GPIO table</a>
       <div class="grp">Hardware</div><a href="#wiring">Wiring diagrams</a><a href="#soldering">Soldering</a><a href="#power">Battery &amp; charging</a><a href="#hud">HUD optics</a><a href="#audio">Audio</a><a href="#heart">Heart rate</a><a href="#touch">Touch strip</a><a href="#lenses">Rx lenses</a>
       <div class="grp">Software</div><a href="#firmware">Firmware</a><a href="#backend">Backend</a><a href="#features">Feature recipes</a><a href="#personality">Personality prompt</a>

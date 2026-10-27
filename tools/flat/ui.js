@@ -86,12 +86,14 @@
 
   /* ---------------- manual viewer ---------------- */
   const APPX = [
-    { title: "Parts list", key: "bom" }, { title: "GPIO map", key: "gpio" }, { title: "Docs & code", key: "docs" }
+    { title: "★ Start here: complete beginner", key: "beginner" }, { title: "Parts list", key: "bom" }, { title: "GPIO map", key: "gpio" }, { title: "Docs & code", key: "docs" }
   ];
   const NPAGES = 1 + STEPS.length + APPX.length;
+  const BEG_PAGE = () => 1 + STEPS.length + 1 + APPX.findIndex(a => a.key === "beginner");
   function pageHTML(p) {
     if (p === 1) {
       return `<div class="pg-num">EDITH</div><h2>DIY AI smart glasses — assembly manual</h2>
+        <a href="#" class="pg-beg" data-page="${BEG_PAGE()}"><b>★ Never soldered, coded or built electronics?</b> Start here: tools, soldering, coding, a desk prototype first. <span>p.${BEG_PAGE()} →</span></a>
         <div class="pg-art">${M.draw(STEPS.length - 1, { w: 640, h: 380, tag: "cover" })}</div>
         <p>XIAO ESP32-S3 Sense · EEMB LP502030 · SSD1306 HUD · MAX30102 · MAX98357A · copper-foil touch strip · Rx / photochromic lenses.</p>
         <ol class="pg-toc">${STEPS.map(s => `<li><a href="#" data-page="${s.page}">${s.n}. ${s.title}</a><span>p.${s.page}</span></li>`).join("")}
@@ -110,10 +112,11 @@
     }
     const a = APPX[p - 2 - STEPS.length];
     const D = window.EDITH_DOCS;
+    if (a.key === "beginner" && window.EDITH_BEGINNER) return window.EDITH_BEGINNER.page("★");
     if (a.key === "bom" && D) return `<div class="pg-num">A</div><h2>Parts list</h2><p class="small">Prices are approximate (checked 2026-10-22/23). Links verified at build time.</p><table class="pg-table"><tr><th>Part</th><th>Qty</th><th>≈ Price</th><th>Link</th></tr>${D.BOM.map(b => `<tr><td><b>${b.part}</b><br><small>${b.purpose}</small></td><td>${b.qty}</td><td>${b.price}</td><td>${b.url ? `<a href="${b.url}" target="_blank" rel="noopener">${b.vendor}</a>` : b.vendor}${b.url2 ? ` · <a href="${b.url2}" target="_blank" rel="noopener">${b.vendor2 || "alt"}</a>` : ""}</td></tr>`).join("")}</table>`;
     if (a.key === "gpio" && D) return `<div class="pg-num">B</div><h2>GPIO map</h2><table class="pg-table"><tr><th>Pin</th><th>GPIO</th><th>Use</th><th>Connects to</th></tr>${D.GPIO.map(r => `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[3]}</td><td>${r[4]}<br><small>${r[5]}</small></td></tr>`).join("")}</table>`;
     return `<div class="pg-num">C</div><h2>Docs &amp; code</h2><p>Everything from the long-form guide — firmware, ESPHome touch YAML, FastAPI backend, the Edith personality prompt, Tesla Fleet API &amp; BLE, soldering, safety and sources — lives in the Docs drawer, with copy buttons on every file.</p>
-      <div class="pg-links">${[["overview", "Overview & features"], ["parts", "Parts & prices"], ["gpio", "Master GPIO table"], ["wiring", "Wiring diagrams"], ["soldering", "Soldering guide"], ["power", "Battery & charging"], ["hud", "HUD optics"], ["touch", "Touch strip gestures"], ["lenses", "Prescription lenses"], ["firmware", "Firmware (Arduino)"], ["backend", "Backend (FastAPI)"], ["personality", "Personality prompt"], ["tesla-fleet", "Tesla Fleet API"], ["tesla-ble", "Tesla BLE"], ["safety", "Safety"], ["sources", "Sources & verification"]].map(([id, t]) => `<button data-doc="${id}">${t} →</button>`).join("")}</div>`;
+      <div class="pg-links">${[["beginner", "★ Start here: complete beginner"], ["overview", "Overview & features"], ["parts", "Parts & prices"], ["gpio", "Master GPIO table"], ["wiring", "Wiring diagrams"], ["soldering", "Soldering guide"], ["power", "Battery & charging"], ["hud", "HUD optics"], ["touch", "Touch strip gestures"], ["lenses", "Prescription lenses"], ["firmware", "Firmware (Arduino)"], ["backend", "Backend (FastAPI)"], ["personality", "Personality prompt"], ["tesla-fleet", "Tesla Fleet API"], ["tesla-ble", "Tesla BLE"], ["safety", "Safety"], ["sources", "Sources & verification"]].map(([id, t]) => `<button data-doc="${id}">${t} →</button>`).join("")}</div>`;
   }
   function showPage(p) {
     st.page = Math.max(1, Math.min(NPAGES, p));
@@ -135,6 +138,7 @@
 
   function initUI() {
     buildTimeline(); syncPlay(); FLAT.setView(st.view);
+    $("#ui-track").setAttribute("aria-valuemax", Math.round(TOTAL));
     $("#ui-play").onclick = () => FLAT.play();
     $("#ui-prev").onclick = () => FLAT.goStep(st.step - 1);
     $("#ui-next").onclick = () => FLAT.goStep(st.step + 1);
@@ -153,6 +157,8 @@
     });
     $("#ui-docsClose").onclick = () => openDocs(false);
     $("#ui-cornerDocs").onclick = () => openDocs(true);
+    $("#ui-beginner").onclick = () => { openManual(false); openDocs(true, "beginner"); };
+    $("#ui-cornerBeg").onclick = () => { openManual(false); openDocs(true, "beginner"); };
     $("#ui-docsNav").addEventListener("click", e => { const a = e.target.closest("a[href^='#']"); if (!a) return; e.preventDefault(); const el = document.getElementById(a.getAttribute("href").slice(1)); el && el.scrollIntoView({ behavior: "smooth", block: "start" }); });
     $("#ui-iFit").onclick = () => { FLAT.freeCam = false; document.body.classList.remove("freecam"); };
     $("#ui-iCam").onclick = () => { FLAT.freeCam = !FLAT.freeCam; document.body.classList.toggle("freecam", FLAT.freeCam); };
