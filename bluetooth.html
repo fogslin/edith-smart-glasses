@@ -25,6 +25,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .lbl .n{font:500 11.5px/1 var(--mono);color:#cfcfd4}
 .lbl.joint::before{background:#ff7a59}
 .lbl.alt::before{background:#7dd3fc}
+.lbl.tape::before{background:#5eead4;box-shadow:0 0 0 3px rgba(94,234,212,.2)}
 .lbl.dot{padding:0;background:none;box-shadow:none}.lbl.dot::before{width:9px;height:9px}
 body.drawing .lbl{background:rgba(255,255,255,.96);color:#111;border:1px solid #ddd}body.drawing .lbl code{color:#2456b8}body.drawing .lbl .n{color:#555}
 /* ---------- left panel ---------- */
@@ -32,6 +33,14 @@ body.drawing .lbl{background:rgba(255,255,255,.96);color:#111;border:1px solid #
 .kicker{font:800 17px/1 var(--sans);letter-spacing:.01em;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.35)}
 .brand{margin:-2px 0 0;font:900 38px/0.95 var(--sans);color:var(--amber);letter-spacing:.01em;text-shadow:0 2px 14px rgba(0,0,0,.25)}
 .intro{margin:2px 0 2px;font:400 12px/1.45 var(--sans);color:rgba(255,255,255,.88);text-shadow:0 1px 6px rgba(0,0,0,.5)}
+.beg-btn{display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;border:0;border-radius:11px;padding:9px 12px;background:linear-gradient(90deg,#f4a93b,#ffbf5a);color:#1d1611;text-align:left;box-shadow:0 6px 22px rgba(244,169,59,.28)}
+.beg-btn b{font:800 13.5px/1.2 var(--sans)}.beg-btn small{font:500 10.5px/1.2 var(--mono);color:#4a3418;letter-spacing:.02em}.beg-btn:hover{filter:brightness(1.07)}
+.corner .beg-corner{background:var(--amber);color:#1d1611}.corner .beg-corner:hover{background:var(--amber2)}
+.pg-beg{display:block;margin:0 0 12px;padding:10px 14px;border-radius:10px;background:#fff3dc;border:1.5px solid #f4a93b;color:#111;text-decoration:none;font:400 13.5px/1.45 var(--sans)}
+.pg-beg span{font:600 12px var(--mono);color:#a05a00;white-space:nowrap}.pg-beg:hover{background:#ffe9bf}
+.pg-table .pill{display:inline-block;font:600 9.5px/1.4 var(--mono);padding:0 6px;border-radius:99px;border:1px solid #ccc;color:#555;margin:2px 0}.pg-table .pill.req{border-color:#1e8a6f;color:#127a5f}.pg-table .pill.opt{border-color:#8b6fd0;color:#6b4fb0}
+.pg-weeks{padding-left:18px}.pg-weeks li{margin:5px 0}
+#ui-docsNav a.beg-nav{color:#ffbf5a;font-weight:700}
 .ctrs{display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:6px}
 .ctr{background:var(--panel);border-radius:9px;padding:7px 9px 6px;backdrop-filter:blur(6px)}
 .ctr span{display:block;font:500 9px/1 var(--mono);letter-spacing:.08em;color:#bdbbc2;text-transform:uppercase}
@@ -127,6 +136,7 @@ body.docs-open .docs{transform:none}
 @media (max-width:820px){
   .pl{left:10px;right:10px;top:8px;width:auto;gap:6px}
   .kicker{font-size:12px}.brand{font-size:26px}.intro,.mcard{display:none}
+  .beg-btn{width:40%;padding:6px 9px}.beg-btn small{display:none}.beg-btn b{font-size:11.5px}
   .ctrs{position:absolute;right:0;top:0;width:58%;gap:4px}.ctr{padding:5px 6px}.ctr b{font-size:15px}.ctr span{font-size:7.5px}
   .card.step{padding:8px 10px}.st-body{font-size:12px;max-height:5.6em;overflow:auto}
   body.left-collapsed .card.step .st-body{display:none}
@@ -314,6 +324,7 @@ body.docs-open .bt-banner,body.manual-open .bt-banner{display:none}
   <div class="kicker">STEP BY STEP · VARIANT</div>
   <h1 class="brand">EDITH <span class="bt-plus">+ Bluetooth audio</span></h1>
   <p class="intro">EDITH + a classic-BT module: calls &amp; music in the left ear, Edith on Wi-Fi in the right. <a class="bt-link" href="#" data-doc-open="bt-features">All features →</a></p>
+  <button class="beg-btn" id="ui-beginner" title="Never soldered or coded? Open the complete-beginner guide"><b>★ Complete beginner? Start here</b><small>tools · soldering · coding · desk prototype</small></button>
   <div class="ctrs">
     <div class="ctr"><span>Step</span><b id="ui-cStep">1</b><i id="ui-cStepT">/22</i></div>
     <div class="ctr"><span>Hardware in</span><b id="ui-cHw">0</b><i id="ui-cHwT">/0</i></div>
@@ -361,7 +372,7 @@ body.docs-open .bt-banner,body.manual-open .bt-banner{display:none}
   <kbd>←</kbd> <kbd>→</kbd> / <kbd>[</kbd> <kbd>]</kbd> step · <kbd>space</kbd> play/pause · <kbd>1</kbd>–<kbd>9</kbd> jump · <kbd>M</kbd> manual · <kbd>⇧V</kbd> Room/Drawing · <kbd>⇧K</kbd> Docs<br>
   Drag the scene to look around (free camera); the camera icon toggles it, the frame icon returns to the director.</div>
 
-<div class="corner"><button id="ui-cornerDocs"><svg class="ico" viewBox="0 0 24 24"><path d="M8 4h8l4 4v12H8z"/><path d="M4 8v12h4M16 4v4h4"/></svg>Docs &amp; code</button></div>
+<div class="corner"><button id="ui-cornerBeg" class="beg-corner">★ Start here</button><button id="ui-cornerDocs"><svg class="ico" viewBox="0 0 24 24"><path d="M8 4h8l4 4v12H8z"/><path d="M4 8v12h4M16 4v4h4"/></svg>Docs &amp; code</button></div>
 
 <section class="mv" id="ui-manual" aria-label="Manual viewer">
   <div class="mv-head"><div><small>EDITH + BLUETOOTH · HYPOTHETICAL VARIANT</small>Step-by-step pages</div>
@@ -377,6 +388,7 @@ body.docs-open .bt-banner,body.manual-open .bt-banner{display:none}
   <div style="height:3px;background:#1a2540"><i id="progBar" style="display:block;height:100%;width:0;background:linear-gradient(90deg,#5eead4,#a78bfa)"></i></div>
   <div class="docs-body">
     <nav id="ui-docsNav" aria-label="Docs sections">
+      <div class="grp">★ Start here</div><a href="#beginner" class="beg-nav">★ Complete beginner</a><a href="#beg-tools">Tools to buy</a><a href="#beg-solder">Soldering 101</a><a href="#beg-code">Coding 101 + backend</a><a href="#beg-proto">Desk prototype</a><a href="#beg-mount">How parts are held</a><a href="#beg-glossary">Glossary</a><a href="#beg-mistakes">Mistakes &amp; help</a>
       <div class="grp">Bluetooth variant</div><a href="#bt-variant">Module &amp; wiring</a><a href="#bt-features">Everything it can do</a><a href="#bt-pair">Pairing &amp; use</a><a href="#bt-firmware">BT firmware</a>
       <div class="grp">Start</div><a href="#overview">Overview</a><a href="#parts">Parts &amp; prices</a><a href="#gpio">GPIO table</a>
       <div class="grp">Hardware</div><a href="#wiring">Wiring diagrams</a><a href="#soldering">Soldering</a><a href="#power">Battery &amp; charging</a><a href="#hud">HUD optics</a><a href="#audio">Audio</a><a href="#heart">Heart rate</a><a href="#touch">Touch strip</a><a href="#lenses">Rx lenses</a>
@@ -386,6 +398,158 @@ body.docs-open .bt-banner,body.manual-open .bt-banner{display:none}
       <div class="grp">Files</div><a href="index.html" onclick="location.href='index.html';return false">Original 3D guide</a><a href="build-guide.html" onclick="location.href='build-guide.html';return false">Classic long-form page</a>
     </nav>
     <main id="docs">
+<section id="beginner">
+  <h2><span class="num">★</span> Start here: complete beginner</h2>
+  <p class="lead">Never soldered, coded or built electronics before? This section is written for you. No experience assumed; every new word is explained (or in the <a href="#beg-glossary">glossary</a>).</p>
+  <div class="honest">This is a hard first project: about <b>8 out of 10</b> for someone starting from zero. The parts are tiny, the frame is cramped, and a LiPo battery needs respect. It is absolutely learnable, but not in a weekend. The trick is to <b>never do two new things at once</b>: learn soldering on a practice kit, learn coding on a blinking LED, and get the whole circuit working on your desk <b>before</b> anything goes into the glasses. Expect a month or more of evenings, a few failed joints, and at least one “why won't it upload?” moment. That's normal.</div>
+
+  <h3>Your staged plan (tick things off as you go)</h3>
+  <ol class="steps" data-group="beg">
+    <li data-id="beg-w1"><div class="body"><b>Week 1 · Practice soldering.</b> Buy the <a href="#beg-tools">tools</a>, read <a href="#beg-solder">Soldering 101</a>, then build the practice kit. Afterwards solder 20+ header pins onto scrap and join a few pairs of wires. Stop when your joints look like shiny little volcanoes every time.</div></li>
+    <li data-id="beg-w2"><div class="body"><b>Week 2 · Coding basics.</b> Follow <a href="#beg-code">Coding 101</a>: install Arduino IDE 2, make the XIAO blink its own LED, then flash the EDITH firmware and watch its messages in the Serial Monitor. Nothing is wired yet, and that's fine: the firmware just reports what's missing.</div></li>
+    <li data-id="beg-w3"><div class="body"><b>Week 3 · Desk prototype (no soldering into the glasses).</b> Solder header pins onto the XIAO and each breakout, then plug everything into a breadboard using the <a href="#beg-proto">desk wiring table</a>, one part at a time, testing after each: <b>OLED</b> → <b>heart rate</b> → <b>amp + speaker</b> → <b>touch pads</b> → the <b>AI backend</b> on your computer. <b>Bluetooth version:</b> add the BT module (and its PAM8302 amp) on the desk <b>last</b>, only after everything else works.</div></li>
+    <li data-id="beg-w4"><div class="body"><b>Week 4+ · Shrink it into the frame.</b> Only when the desk version works end to end. Follow the 16-step 3D manual: bond the <a href="#beg-mount">pod shells</a>, foam-tape the boards, swap jumper wires for short 30 AWG wires one connection at a time, re-test, then the battery last, then close the lids.</div></li>
+  </ol>
+  <div class="note">Why stages? When something doesn't work (it will), you only have one new thing to suspect. On the desk you can see and touch every wire; inside a glasses temple you can't.</div>
+
+  <h3 id="beg-tools">1 · Tools shopping list</h3>
+  <p>One-time tools, not EDITH parts (those are in <a href="#parts">Parts &amp; prices</a>). Every link below returned HTTP 200 when checked on 2026-10-26; prices are the listed prices seen that day, before shipping and tax, and they change.</p>
+  <div class="tablewrap"><table id="begTools"><thead><tr><th>Tool</th><th>Price</th><th>Link</th></tr></thead><tbody></tbody></table></div>
+  <p class="small muted" id="begToolsTotal"></p>
+  <p class="small">Also handy for week 4 (no verified links, estimates): double-sided foam tape (≈ $5), Kapton tape (≈ $5–10), 2-part epoxy or UV resin (≈ $5–15), wire strippers for 30 AWG (≈ $10–25), 30 AWG silicone wire and heat-shrink (in the parts list).</p>
+
+  <h3 id="beg-solder">2 · Soldering 101</h3>
+  <p><b>Soldering</b> joins two metal parts with a tiny bit of melted metal alloy (solder). Done right, the joint is both a glue and a wire. It's a hand skill like handwriting: 30 minutes of practice makes a huge difference.</p>
+  <div class="warn"><b>Safety first.</b>
+    <br>• <b>Hot iron:</b> the tip is ~350 °C. It goes back in its stand every time you let go. Treat it as hot even when it's “off”. If it falls, let it fall; never catch it.
+    <br>• <b>LiPo batteries</b> store a lot of energy. Punctured, squeezed, shorted or overheated, they can swell, smoke and catch fire. Never touch the iron to the battery, never solder directly on its pouch tabs, cut its two wires <b>one at a time</b> (cutting both at once shorts them through the cutter), and keep it out of the build until week 4. A puffy battery is finished: stop and recycle it.
+    <br>• <b>Ventilation:</b> the smoke is flux, not lead, but it irritates lungs and eyes. Window open, fan pulling the smoke away from your face.
+    <br>• <b>Wash your hands</b> after using leaded solder, and no food or drink at the bench.
+    <br>• <b>Safety glasses</b> on: clipped wire ends fly.</div>
+  <ol class="steps" data-group="beg-sol">
+    <li data-id="beg-s1"><div class="body"><b>Set up.</b> Iron at ~330–350 °C (leaded 60/40 solder). Wipe the tip on the brass sponge (it is used dry, no water), then melt a little solder onto the tip so it's shiny (that's <i>tinning the tip</i>).</div></li>
+    <li data-id="beg-s2"><div class="body"><b>Flux.</b> Dab the flux pen on the pad and wire. Flux cleans the metal so solder flows.</div></li>
+    <li data-id="beg-s3"><div class="body"><b>Heat the pad and the wire together.</b> Touch the tip so it presses on <i>both</i> at once for 1–2 seconds. You heat the parts, not the solder.</div></li>
+    <li data-id="beg-s4"><div class="body"><b>Feed the solder into the joint</b> (the side opposite the tip, not onto the iron). It should melt and flow around the joint on its own. Feed a little, then take the solder away, then the iron. Whole thing: 2–4 seconds. Don't move it for a few seconds while it cools.</div></li>
+    <li data-id="beg-s5"><div class="body"><b>Inspect.</b> Good: a <b>shiny, smooth little cone or volcano</b> that hugs the pin and the pad. Bad: a <b>round blob</b> sitting on top (not enough heat, or the pad wasn't heated), a <b>dull, grainy</b> joint (moved while cooling: reheat it), or solder that never touched the pad.</div></li>
+    <li data-id="beg-s6"><div class="body"><b>Tinning wires.</b> Strip ~2 mm of insulation, twist the strands, add flux, heat the wire and let a little solder soak in. A tinned wire then joins a tinned pad in one quick touch.</div></li>
+    <li data-id="beg-s7"><div class="body"><b>Fixing a bridge</b> (solder accidentally joining two neighbouring pads): flux, lay the solder wick on the bridge, press the iron on the wick for 2–3 seconds. The braid soaks up the solder; lift wick and iron together. Cut off the used part of the wick.</div></li>
+    <li data-id="beg-s8"><div class="body"><b>Practise before real parts.</b> Practice kit first, then header pins on scrap, then the XIAO's header pins (week 3). Check every joint with the multimeter's beep mode: neighbouring pins must <b>not</b> beep together.</div></li>
+  </ol>
+  <p class="small">Good picture guides: <a href="https://learn.adafruit.com/adafruit-guide-excellent-soldering" target="_blank" rel="noopener">Adafruit Guide to Excellent Soldering</a> · <a href="https://learn.sparkfun.com/tutorials/how-to-solder-through-hole-soldering" target="_blank" rel="noopener">SparkFun: How to Solder</a> · <a href="https://learn.adafruit.com/li-ion-and-lipoly-batteries" target="_blank" rel="noopener">Adafruit: LiPo battery basics</a>.</p>
+
+  <h3 id="beg-code">3 · Coding 101 (Arduino IDE)</h3>
+  <p>The <b>firmware</b> is the program that runs on the XIAO. You don't have to write it, only install it. Arduino IDE 2 is a free app that turns the code into something the chip runs and sends it over USB.</p>
+  <ol class="steps" data-group="beg-code">
+    <li data-id="beg-c1"><div class="body"><b>Install Arduino IDE 2</b> from <a href="https://www.arduino.cc/en/software" target="_blank" rel="noopener">arduino.cc/en/software</a> (Windows, macOS or Linux). <a href="https://docs.arduino.cc/software/ide-v2/tutorials/getting-started/ide-v2-downloading-and-installing/" target="_blank" rel="noopener">Install help</a>.</div></li>
+    <li data-id="beg-c2"><div class="body"><b>Add the ESP32 boards.</b> <b>File → Preferences</b> (macOS: <b>Arduino IDE → Settings</b>) → <i>Additional boards manager URLs</i>, paste:<br><code>https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json</code><br>Then <b>Tools → Board → Boards Manager</b>, search <i>esp32</i>, install <b>esp32 by Espressif Systems</b> (version 3.x).</div></li>
+    <li data-id="beg-c3"><div class="body"><b>Pick the board:</b> <b>Tools → Board → esp32 → XIAO_ESP32S3</b>. Then in the same Tools menu set <b>PSRAM → OPI PSRAM</b> (the camera and audio need this extra memory) and <b>USB CDC On Boot → Enabled</b> (lets the board talk to the Serial Monitor over USB).</div></li>
+    <li data-id="beg-c4"><div class="body"><b>Plug in</b> the XIAO with a <i>data</i> USB cable. <b>Tools → Port</b>: pick the new entry that appears (COM3 or similar on Windows, <code>/dev/cu.usbmodem…</code> on macOS, <code>/dev/ttyACM0</code> on Linux).</div></li>
+    <li data-id="beg-c5"><div class="body"><b>First program: blink.</b> <b>File → New Sketch</b>, replace everything with the code below, click <b>Upload</b> (the → arrow). The small orange LED on the XIAO should blink. Open the <b>Serial Monitor</b> (magnifier icon, top right), set it to <b>115200 baud</b>: you'll see on / off messages. You just programmed a microcontroller.</div></li>
+    <li data-id="beg-c6"><div class="body"><b>Install the libraries the EDITH sketch uses</b> (<b>Tools → Manage Libraries</b>, search each name, click Install, accept “install dependencies”): <b>Adafruit SSD1306</b>, <b>Adafruit GFX Library</b>, <b>ArduinoJson</b> (version 7), <b>SparkFun MAX3010x Pulse and Proximity Sensor Library</b>. The other includes (<code>WiFi.h</code>, <code>HTTPClient.h</code>, <code>Wire.h</code>, <code>esp_camera.h</code>, <code>ESP_I2S.h</code>) come with the ESP32 boards package: don't install anything for them.</div></li>
+    <li data-id="beg-c7"><div class="body"><b>Open the EDITH firmware:</b> <code>firmware/edith_glasses/edith_glasses.ino</code> (Bluetooth version: <code>firmware/edith_glasses_bt/edith_glasses_bt.ino</code>). The folder name must match the file name, so open it from that folder. Near the top, fill in your Wi-Fi name and password, <code>BACKEND_URL</code> (your computer's address, step 9) and <code>DEVICE_TOKEN</code> (any long random password; the same one goes in the backend's <code>.env</code>). Upload.</div></li>
+    <li data-id="beg-c8"><div class="body"><b>Read the Serial Monitor</b> (115200). You'll see a line like <code>cam=1 oled=0 pulse=0 spk=1 psram=8388608</code>. <code>oled=0</code> and <code>pulse=0</code> just mean “not found yet”: they flip to <code>1</code> when you wire those parts in week 3. (<code>spk=1</code> only means the sound output started; you'll know the amp works when you hear it.) If <code>psram=0</code>, the PSRAM setting is wrong.</div></li>
+  </ol>
+  <div class="codeblock"><div class="cb-head"><span>blink.ino: first test sketch</span><span><button class="btn sm copy">⧉ Copy</button></span></div><pre><code>// Week 2: your first program. The XIAO&#x27;s small orange user LED is on GPIO21 (LED_BUILTIN).
+void setup() {
+  pinMode(LED_BUILTIN, OUTPUT);
+  Serial.begin(115200);
+}
+
+void loop() {
+  digitalWrite(LED_BUILTIN, LOW);   // this LED is &quot;active low&quot;: LOW = on
+  Serial.println(&quot;LED on&quot;);
+  delay(500);
+  digitalWrite(LED_BUILTIN, HIGH);  // HIGH = off
+  Serial.println(&quot;LED off&quot;);
+  delay(500);
+}
+</code></pre></div>
+  <div class="note"><b>Upload failed or no port shows up?</b> Work down this list: (1) try a different USB cable: charge-only cables are the #1 cause; (2) another USB port, no hub; (3) <b>hold the BOOT button</b> (the tiny button marked B), plug the USB cable in, <b>then release BOOT</b>: the XIAO is now in download mode, re-select the port and Upload again, then press RESET (R) when it finishes; (4) check Board = XIAO_ESP32S3; (5) Linux only: add yourself to the <code>dialout</code> group and log out/in. Still stuck? Copy the red error text and see <a href="#beg-mistakes">when to ask for help</a>.</div>
+
+  <h3>Backend 101 (the AI on your computer)</h3>
+  <p>The glasses are small; the thinking happens on your computer. The <b>backend</b> is a small Python program (FastAPI) that receives the glasses' audio and photos, turns speech into text (Whisper), asks an AI model (LLM) for an answer, and turns that answer back into speech (TTS). You run it in a terminal window; the glasses talk to it over Wi-Fi.</p>
+  <ol class="steps" data-group="beg-be">
+    <li data-id="beg-b1"><div class="body"><b>Install Python 3.10 or newer</b> from <a href="https://www.python.org/downloads/" target="_blank" rel="noopener">python.org/downloads</a>. On Windows tick <b>“Add python.exe to PATH”</b> in the installer (<a href="https://docs.python.org/3/using/windows.html" target="_blank" rel="noopener">details</a>). For the music feature also install <a href="https://ffmpeg.org/download.html" target="_blank" rel="noopener">ffmpeg</a>.</div></li>
+    <li data-id="beg-b2"><div class="body"><b>Open a terminal</b> (Windows: PowerShell; macOS: Terminal; Linux: any terminal) and copy-paste the commands below for your system, one line at a time. They make a private Python workspace (<code>.venv</code>), install what the backend needs, and copy the settings template.</div></li>
+    <li data-id="beg-b3"><div class="body"><b>Put your API keys in <code>.env</code>.</b> Open <code>backend/.env</code> in any text editor and replace the placeholders: <code>LLM_API_KEY</code> (e.g. an xAI key), <code>STT_API_KEY</code> and <code>TTS_API_KEY</code> (e.g. OpenAI keys), and <code>DEVICE_TOKEN</code> (the same random password you put in the sketch). An <b>API key</b> is a password for a paid online AI service: these services bill per use, so never share the key, post it, or put <code>.env</code> on GitHub.</div></li>
+    <li data-id="beg-b4"><div class="body"><b>Start it</b> with the <code>uvicorn</code> line, then open <a href="http://localhost:8000/health" target="_blank" rel="noopener">http://localhost:8000/health</a> in a browser: a short OK reply means it's running. Leave that terminal window open while you use the glasses.</div></li>
+    <li data-id="beg-b5"><div class="body"><b>Tell the glasses where it is.</b> Find your computer's local IP address (Windows: <code>ipconfig</code>; macOS/Linux: <code>ifconfig</code> or <code>ip addr</code>; it looks like 192.168.1.50), put <code>http://THAT-IP:8000</code> into <code>BACKEND_URL</code> in the sketch, upload again, and allow port 8000 if your firewall asks. Computer and glasses must be on the same Wi-Fi.</div></li>
+  </ol>
+  <div class="codeblock"><div class="cb-head"><span>Backend: macOS / Linux</span><span><button class="btn sm copy">⧉ Copy</button></span></div><pre><code># macOS / Linux (Terminal). Start inside the project folder you downloaded.
+cd backend
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env
+# now edit .env (API keys + DEVICE_TOKEN), then start the server:
+uvicorn server:app --host 0.0.0.0 --port 8000
+# next time: cd backend &amp;&amp; source .venv/bin/activate &amp;&amp; uvicorn server:app --host 0.0.0.0 --port 8000
+</code></pre></div><div class="codeblock"><div class="cb-head"><span>Backend: Windows (PowerShell)</span><span><button class="btn sm copy">⧉ Copy</button></span></div><pre><code># Windows (PowerShell). Start inside the project folder you downloaded.
+cd backend
+py -m venv .venv
+.venv\Scripts\activate
+# (if PowerShell refuses to run the activate script: Set-ExecutionPolicy -Scope CurrentUser RemoteSigned)
+pip install -r requirements.txt
+copy .env.example .env
+# now edit .env (API keys + DEVICE_TOKEN), then start the server:
+uvicorn server:app --host 0.0.0.0 --port 8000
+</code></pre></div>
+  <p class="small">Full details, endpoints and remote access: <a href="#backend">Backend (FastAPI)</a>. Firmware details: <a href="#firmware">Firmware</a>.</p>
+
+  <h3 id="beg-proto">4 · Desk prototype wiring (week 3)</h3>
+  <p>A <b>breadboard</b> has hidden metal strips: each short row of 5 holes is connected, the long red/blue lines along the edges are the power <b>rails</b>, and nothing crosses the centre gap. Push the XIAO in so it <b>straddles the centre gap</b> (otherwise both sides of the board get shorted together). The pins below are <b>exactly the same</b> as in the finished glasses (<a href="#gpio">GPIO table</a>), so the firmware doesn't change and the wiring transfers 1:1 when you shrink it.</p>
+  <div class="tablewrap"><table id="begProto"><thead><tr><th>Part</th><th>Its pin</th><th>Goes to</th><th>Wire colour</th><th>Notes</th></tr></thead><tbody></tbody></table></div>
+  <div class="note">Add <b>one part at a time</b>: unplug USB, wire it, double-check against the table, plug in, read the Serial Monitor (after the OLED or heart sensor, its <code>oled=</code> / <code>pulse=</code> value should go from 0 to 1), then try it. The OLED shows text, the heart sensor's BPM appears when you rest a fingertip on it, the speaker plays Edith's voice once the backend runs, and at boot the Serial Monitor prints a baseline value for each touch pad (then try the gestures in <a href="#touch">Touch strip</a>). <a href="https://learn.adafruit.com/breadboards-for-beginners" target="_blank" rel="noopener">Breadboards for beginners (Adafruit)</a>.</div>
+  <div class="verify">The Bluetooth rows (★) are part of the <b>hypothetical</b> BT variant: not built or tested. Check each pin against the module's wiki before powering it (see <a href="#bt-variant">Bluetooth module &amp; wiring</a>).</div>
+
+  <h3 id="beg-mount">5 · How everything is held in place</h3>
+  <p>In the 3D build, parts seem to just “land” on the frame. In real life each part is held by something. Here's the whole system, in the order the 3D steps now show it:</p>
+  <div class="grid g2">
+    <div class="feature"><span class="tag">1 · pod shells</span><b>3D-printed pods, bonded to the temple</b>Each temple gets a small printed tray (a “pod shell”) shaped to it. No 3D printer? Upload the model to an online 3D-printing service, or ask a library or makerspace. Rough up the contact area with sandpaper, clean it with isopropyl alcohol, then bond the shell with <b>2-part epoxy</b> or <b>UV resin</b>. If you'd rather not glue your frame, design the pod to <b>clip</b> or strap around the temple instead.</div>
+    <div class="feature"><span class="tag">2 · battery</span><b>LiPo in a snug pocket on foam tape</b>The battery sits in a pocket in the left shell, on a pad of <b>double-sided foam tape</b>. The pocket stops it sliding; the lid stops it lifting. <b>Never hot-glue a LiPo, never squeeze it into a tight spot, never pierce it</b>: heat and pressure damage the cell, and LiPos can swell slightly with age, so leave a hair of room.</div>
+    <div class="feature"><span class="tag">3 · boards</span><b>Boards on foam tape (or one dab of hot glue on the board)</b>The XIAO, amp, BT module and other boards stick down on small pads of double-sided foam tape, which also insulates their backs. Alternative: a small dab of hot glue on the board's edge, never on the battery.</div>
+    <div class="feature"><span class="tag">4 · wires</span><b>Wires held flat with Kapton tape</b>Short strips of <b>Kapton tape</b> (heat-proof, orange) hold the wire bundles flat along the temple. That's <b>strain relief</b>: if a wire gets tugged, the tape takes the pull instead of the tiny solder joint. Add a drop of hot glue or UV resin where each wire leaves a pad, and leave a service loop at each hinge.</div>
+    <div class="feature"><span class="tag">5 · lid</span><b>The lid screws shut and clamps it all</b>A printed cover (lid) drops over each shell and tiny <b>M1.4 screws</b> go into the shell's screw bosses (little posts). The lid presses the boards and battery onto their foam tape so nothing rattles, and it comes off again for repairs.</div>
+    <div class="feature"><span class="tag">check</span><b>Before you close a lid</b>Multimeter beep test: battery + to −, and 3V3 to GND, must <b>not</b> beep. Fold the temples 20 times and watch the wires bend in their loops, not at a joint.</div>
+  </div>
+
+  <h3 id="beg-glossary">6 · Glossary</h3>
+  <div class="tablewrap"><table>
+    <tr><th>Word</th><th>Plain meaning</th></tr>
+    <tr><td><b>GPIO</b></td><td>“General-purpose input/output”: a pin on the chip that the program can switch on/off or read. D0–D10 on the XIAO are GPIOs (each has a number, e.g. D4 = GPIO5).</td></tr>
+    <tr><td><b>I²C</b> (“I-squared-C”)</td><td>A way for several small parts to share just two wires (SDA = data, SCL = clock). Each part has its own address (OLED 0x3C, heart sensor 0x57).</td></tr>
+    <tr><td><b>I²S</b> (“I-squared-S”)</td><td>A three-wire way to send digital sound (DIN, BCLK, LRC) from the XIAO to the amplifier.</td></tr>
+    <tr><td><b>LiPo</b></td><td>Lithium-polymer battery: a flat, light, rechargeable pouch (3.7 V). Powerful for its size, and dangerous if damaged, shorted or overheated.</td></tr>
+    <tr><td><b>Flux</b></td><td>A cleaning liquid/paste that removes oxide so solder flows and sticks. Rosin-core solder has some inside; the flux pen adds more.</td></tr>
+    <tr><td><b>Tinning</b></td><td>Coating a wire end, a pad or the iron tip with a thin layer of solder first, so the final joint takes one quick touch.</td></tr>
+    <tr><td><b>Breadboard</b></td><td>A plastic board full of spring holes connected in rows: build and change a circuit by pushing wires in, no soldering.</td></tr>
+    <tr><td><b>Firmware</b></td><td>The program that lives on the XIAO (here, <code>edith_glasses.ino</code>). You “flash” or “upload” it over USB.</td></tr>
+    <tr><td><b>Backend</b></td><td>The program on your computer that does the heavy AI work (speech-to-text, the AI model, text-to-speech) and answers the glasses over Wi-Fi.</td></tr>
+    <tr><td><b>API key</b></td><td>A secret password that lets the backend use a paid online AI service. Keep it in <code>.env</code>, never share or upload it.</td></tr>
+    <tr><td><b>Pad / header pin</b></td><td>A pad is a metal spot on a board you solder to. Header pins are little metal posts soldered into a board so it plugs into a breadboard.</td></tr>
+    <tr><td><b>Short / bridge</b></td><td>An accidental connection (often a solder blob) between two things that shouldn't touch. Find it with the multimeter's beep mode.</td></tr>
+  </table></div>
+
+  <h3 id="beg-mistakes">7 · Common beginner mistakes</h3>
+  <ul>
+    <li><b>Charge-only USB cable</b>: no port appears, nothing uploads. Use a known data cable.</li>
+    <li><b>Wrong board settings</b>: not XIAO_ESP32S3, or PSRAM not set to OPI → camera/audio fail or the board keeps rebooting.</li>
+    <li><b>Blob joints</b>: melting solder onto the iron and dabbing it on. Heat the pad and wire, then feed solder into the joint.</li>
+    <li><b>Holding the iron too long</b> (5+ seconds): pads can lift off the board. If a joint won't flow, add flux, wipe the tip, try again.</li>
+    <li><b>Solder bridges</b> between the XIAO's neighbouring pads. Inspect with the magnifier, beep-test, fix with wick.</li>
+    <li><b>XIAO inserted along one breadboard row</b> instead of across the centre gap: shorts every pin pair.</li>
+    <li><b>5 V into 3.3 V parts</b>: the OLED, sensor and amp take <b>3V3</b>, not 5V.</li>
+    <li><b>Speaker lead to GND</b>: the amp's outputs are + and −, neither is ground.</li>
+    <li><b>Battery polarity reversed</b> on the BAT pads: check with the multimeter before soldering. BAT− is the underside pad nearer the USB port.</li>
+    <li><b>Touching the touch pads at power-on</b>: the firmware measures “untouched” values at boot.</li>
+    <li><b>Skipping the desk prototype</b> and building straight into the glasses: when it doesn't work you can't see why.</li>
+    <li><b>Posting your <code>.env</code> or API keys</b> (GitHub, screenshots, forums). Anyone with the key can spend your money.</li>
+    <li><b>Working tired or rushed.</b> Stop for the night. The joint will still be there tomorrow.</li>
+  </ul>
+  <div class="warn"><b>Stop and ask for help when:</b> anything smells burnt, a board or the battery gets hot, or the LiPo looks puffy (unplug, move it away from anything flammable, don't charge it again); you'd have to force a part or connector; uploads still fail after the checklist above; or you're about to cut the battery's plug and solder it to the BAT pads for the first time (have someone experienced watch). Good places: a local makerspace or library maker lab, the <a href="https://forum.seeedstudio.com/" target="_blank" rel="noopener">Seeed forum</a> (XIAO questions), the <a href="https://forum.arduino.cc/" target="_blank" rel="noopener">Arduino forum</a> (upload and code questions), and <a href="https://www.reddit.com/r/AskElectronics/" target="_blank" rel="noopener">r/AskElectronics</a>. Include a clear photo of both sides of your wiring and the exact error text.</div>
+</section>
+
 <section id="bt-variant">
   <h2><span class="num">★</span> EDITH + Bluetooth audio <span class="tag">hypothetical variant</span></h2>
   <p class="warn"><b>Hypothetical, not built or tested.</b> This page extends the original EDITH guide (<a href="index.html">index.html</a>) with a classic-Bluetooth audio module, so the glasses can take phone calls and play phone music like Bluetooth earbuds. Everything else (Wi-Fi AI, HUD, camera, touch, heart rate, Tesla) is unchanged. Part facts come from the vendors' pages as checked on 2026-10-24. Anything not confirmed there is marked <b>UNVERIFIED</b>.</p>
@@ -3085,6 +3249,22 @@ if __name__ == &quot;__main__&quot;:
     ttp:     { name: "TTP223 module", code: "alt · tap only", mat: [-1.22, 0, -0.78] },
     plug:    { name: "USB-C plug", code: "5 V", c: [-0.77, TY + 0.02, -0.49], mat: [-1.30, 0, -1.05] }
   };
+  // printed pod shells: a thin base plate bonded (epoxy / UV resin) to the temple's outer face, same footprint as its cover
+  function podFrom(cov, side) {
+    const th = side < 0 ? 0.0074 : 0.004;
+    return { c: [side * (0.7427 + th / 2), cov.c[1], cov.c[2]], s: [th, cov.s[1] - 0.012, cov.s[2] - 0.012] };
+  }
+  PARTS.podR = Object.assign({ name: "Right pod shell", code: "3D-printed · bonded", mat: [1.05, 0, -0.02] }, podFrom(PARTS.coverR, -1));
+  PARTS.podL = Object.assign({ name: "Left pod shell", code: "3D-printed · bonded", mat: [1.05, 0, -1.0] }, podFrom(PARTS.coverL, 1));
+  // double-sided foam tape under boards / battery, Kapton strips over the wire runs (consumables, not pieces)
+  const TAPE = {
+    foamR:   { c: [-0.7568, TY + 0.02, -0.30], s: [0.0125, 0.11, 0.10], from: [-0.25, 0.08, 0], name: "Double-sided foam tape", code: "holds the XIAO" },
+    foamL:   { c: [0.7476, TY + 0.005, -0.80], s: [0.0018, 0.17, 0.26], from: [0.25, 0.08, 0], name: "Double-sided foam tape", code: "LiPo sits on it · no glue" },
+    foamAmp: { c: [-0.6962, TY - 0.02, -0.33], s: [0.0025, 0.13, 0.15], from: [0.25, 0.08, 0], name: "Foam tape", code: "holds the amp" },
+    kapL:    { c: [0.728, TY + 0.066, -0.25], s: [0.06, 0.003, 0.05], from: [0, 0.2, 0], kapton: true, name: "Kapton tape", code: "holds wires flat" },
+    kapB:    { c: [0, 0.512, -0.042], s: [0.08, 0.003, 0.03], from: [0, 0.2, 0], kapton: true },
+    kapR:    { c: [-0.712, TY + 0.062, -0.12], s: [0.05, 0.003, 0.04], from: [0, 0.2, 0], kapton: true }
+  };
   const SCREWS = {
     hud1:  { c: [-0.645, 0.462, 0.0], step: "hud", name: "Arm screw" },
     hingeL:{ c: [0.70, TY + 0.052, -0.045], step: "hinge", name: "Hinge screw L" },
@@ -3096,7 +3276,7 @@ if __name__ == &quot;__main__&quot;:
   };
   const TIN = ["D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D10", "3V3", "GND"];
   const RIM = { cx: 0.36, cy: 0.23, w: 0.56, h: 0.44, r: 0.13, iw: 0.46, ih: 0.34, ir: 0.09, d: 0.05 };
-  window.FLAT_GEO = { TY, TX, TW, TH, XC, TOP, BOT, pad, C, WIRES, PARTS, SCREWS, TIN, RIM, PADZ, SPK, BTN, LED, SW, SWP, BAT, OP, HP, AP, SP,
+  window.FLAT_GEO = { TY, TX, TW, TH, XC, TOP, BOT, pad, C, WIRES, PARTS, SCREWS, TAPE, podFrom, TIN, RIM, PADZ, SPK, BTN, LED, SW, SWP, BAT, OP, HP, AP, SP,
     temple: { z0: -0.06, z1: -1.30, tipZ: -1.60, tipY: 0.03 } };
 })();
 
@@ -3159,6 +3339,7 @@ if __name__ == &quot;__main__&quot;:
   });
   // one long, flush left pod now covers BT module + battery + amp
   Object.assign(P.coverL, { name: "Left pod cover (long)", code: "PLA · BT", c: [0.79, TY - 0.0025, -0.6825], s: [0.09, 0.25, 1.095], mat: [1.62, 0, -1.25] });
+  Object.assign(P.podL, G.podFrom(P.coverL, 1));   // the left pod shell follows the long cover
   Object.assign(G.SCREWS, {
     cL3: { c: [0.79, TY + 0.1225, -0.20], step: "pods", name: "Cover screw" },
     cL4: { c: [0.79, TY + 0.1225, -1.17], step: "pods", name: "Cover screw" }
@@ -3179,16 +3360,16 @@ if __name__ == &quot;__main__&quot;:
   const G = window.FLAT_GEO;
   const S = [
     { id: "layout", title: "Lay out the parts", dur: 8, view: "F", callout: "qty", parts: ["frame"],
-      card: "Unbox everything onto the mat. Frame in the middle, electronics in the front row, covers and lenses to the side. Count the <b>21</b> pieces before you start.",
+      card: "Unbox everything onto the mat. Frame in the middle, electronics in the front row, covers and lenses to the side. Count the <b>23</b> pieces before you start.",
       details: ["Work on a clean, light-coloured mat so tiny parts stay visible; keep the LiPo away from the iron.", "Default battery is the <b>EEMB LP502030</b> (3.7 V, 250 mAh, 20.5 × 31–32 × 5.3 mm, 5 g, built-in PCM).", "Tools: temperature-controlled iron (≈330–350 °C), 0.3–0.5 mm rosin-core solder, flux pen, tweezers, flush cutters, Ø1.5 mm screwdriver, 30 AWG silicone wire, heat-shrink, Kapton tape.", "Full parts list with verified links and prices: <b>Docs &amp; code → Parts list</b>."],
-      bom: [["1x", "frame"], ["1x", "XIAO ESP32-S3 Sense"], ["1x", "EEMB LP502030"], ["1x", "0.91″ OLED"], ["1x", "MAX30102"], ["1x", "MAX98357A"], ["3x", "foil pad"], ["2x", "lens"]] },
-    { id: "tin", title: "Tin the XIAO pads", dur: 9, view: "R", callout: "iron", parts: ["xiao"], diagram: null,
-      card: "Place the <b>XIAO ESP32-S3</b> on the right temple, USB-C facing back. Put a thin coat of solder on the <b>12 pads</b> you will use.",
-      details: ["Slide the Sense expansion board off sideways first (never pry it up).", "Pads: D0 D1 D2 D3 D4 D5 D6 D7 D8 D10, 3V3, GND. Flux, touch the iron for ~1 s, feed a little solder.", "Direct wiring (no headers) keeps the pod thin.", "Shown on the frame for clarity — do the soldering on the bench and mount afterwards."],
+      bom: [["1x", "frame"], ["2x", "pod shell"], ["1x", "foam tape"], ["1x", "XIAO ESP32-S3 Sense"], ["1x", "EEMB LP502030"], ["1x", "0.91″ OLED"], ["1x", "MAX30102"], ["1x", "MAX98357A"], ["3x", "foil pad"], ["2x", "lens"]] },
+    { id: "tin", title: "Tin the XIAO pads", dur: 12, view: "R", callout: "iron", parts: ["podR", "xiao"], diagram: null,
+      card: "Bond the 3D-printed <b>pod shell</b> to the right temple (epoxy or UV resin), stick a <b>foam-tape pad</b> in it, then seat the <b>XIAO ESP32-S3</b> on it, USB-C facing back. Put a thin coat of solder on the <b>12 pads</b> you will use.",
+      details: ["How it stays on: the shell is glued to the temple, the board sits on double-sided foam tape inside it, and the lid (step 12) clamps everything. No printer? Order the pods from an online print service.", "Slide the Sense expansion board off sideways first (never pry it up).", "Pads: D0 D1 D2 D3 D4 D5 D6 D7 D8 D10, 3V3, GND. Flux, touch the iron for ~1 s, feed a little solder.", "Direct wiring (no headers) keeps the pod thin.", "Shown on the frame for clarity — do the soldering on the bench and mount afterwards."],
       solder: G.TIN.map(p => p + " pad") },
-    { id: "battery", title: "Battery → switch → BAT pads", dur: 10, view: "T", callout: "iron", parts: ["battery", "switch"], diagram: "power",
-      card: "LiPo in the <b>left</b> pod. Red lead through the <b>slide switch</b>, both leads across the hinges and behind the brow to the <b>BAT+</b> / <b>BAT−</b> pads under the XIAO.",
-      details: ["Cut the JST plug off the LP502030-PCM leads one wire at a time (never short red and black).", "Red → switch COM, switch OUT → <b>BAT+</b>. Black → <b>BAT−</b> (the underside pad nearer the USB-C port).", "Heat-shrink both switch joints. Leave a service loop at each hinge.", "The XIAO charges the cell over USB-C; the cell's PCM protects against over-charge/discharge."],
+    { id: "battery", title: "Battery → switch → BAT pads", dur: 13, view: "T", callout: "iron", parts: ["podL", "battery", "switch"], diagram: "power",
+      card: "Bond the <b>left pod shell</b>, add a <b>foam-tape pad</b>, then press the LiPo into its snug pocket. Red lead through the <b>slide switch</b>, both leads across the hinges and behind the brow to the <b>BAT+</b> / <b>BAT−</b> pads under the XIAO.",
+      details: ["Never hot-glue, pierce or squeeze a LiPo pouch: a snug pocket plus double-sided foam tape holds it, and the lid stops it moving.", "Cut the JST plug off the LP502030-PCM leads one wire at a time (never short red and black).", "Red → switch COM, switch OUT → <b>BAT+</b>. Black → <b>BAT−</b> (the underside pad nearer the USB-C port).", "Heat-shrink both switch joints. Leave a service loop at each hinge.", "The XIAO charges the cell over USB-C; the cell's PCM protects against over-charge/discharge."],
       solder: ["SW COM", "SW OUT", "BAT+ pad", "BAT− pad"] },
     { id: "camera", title: "Camera module & antenna", dur: 8, view: "R", callout: "cam", parts: ["sense", "cam", "antenna"],
       card: "Click the <b>Sense board</b> back onto the B2B connector, fold the <b>camera</b> forward to look through the pod front and press the <b>u.FL antenna</b> on.",
@@ -3204,9 +3385,9 @@ if __name__ == &quot;__main__&quot;:
       card: "<b>MAX30102</b> on the inside of the right temple, against the skin. It shares <b>SDA/SCL</b> with the OLED (address 0x57).",
       details: ["VIN → 3V3, GND → GND, SDA → D4, SCL → D5 (same pads as the OLED).", "Light-proof the edges with black tape so ambient light doesn't swamp the PPG signal.", "Firmware averages 4 beats and shows ♥ BPM in the HUD corner."],
       solder: ["D4 · SDA", "D5 · SCL", "3V3 pad", "GND pad", "HR SDA", "HR SCL", "HR VIN", "HR GND"] },
-    { id: "audio", title: "I²S amp + bone transducer", dur: 10, view: "Ri", callout: "x", parts: ["amp", "spk"], diagram: "i2s",
+    { id: "audio", title: "I²S amp + bone transducer", dur: 11.5, view: "Ri", callout: "x", parts: ["amp", "spk"], diagram: "i2s",
       card: "<b>MAX98357A</b> inside the right temple: <b>LRC → D7</b>, <b>BCLK → D6</b>, <b>DIN → D2</b>, VIN → 3V3, GND. Its +/− go to the <b>bone transducer</b> by the ear.",
-      details: ["GAIN and SD stay unconnected (9 dB, left+right mix).", "Speaker output is bridged: never connect either speaker lead to GND.", "Music and TTS stream over Wi-Fi from the backend (the ESP32-S3 has no Bluetooth Classic / A2DP)."],
+      details: ["The amp board sits on a small foam-tape pad (or one dab of hot glue on the board itself, never on the battery).", "GAIN and SD stay unconnected (9 dB, left+right mix).", "Speaker output is bridged: never connect either speaker lead to GND.", "Music and TTS stream over Wi-Fi from the backend (the ESP32-S3 has no Bluetooth Classic / A2DP)."],
       solder: ["D7 · LRC", "D6 · BCLK", "D2 · DIN", "3V3 pad", "GND pad", "AMP LRC", "AMP BCLK", "AMP DIN", "AMP VIN", "AMP GND", "SPK +", "SPK −"] },
     { id: "touch", title: "Foil touch strip", dur: 10, view: "R", callout: "foil", parts: ["padA", "padB", "padC"], diagram: "touch",
       card: "Lay <b>3 copper-foil pads</b> in the channel behind the pod, 8–10 mm apart. Leads: <b>A → D0</b>, <b>B → D1</b>, <b>C → D3</b>. (TTP223 = tap-only alternative.)",
@@ -3218,9 +3399,9 @@ if __name__ == &quot;__main__&quot;:
       solder: ["D8 pad", "GND pad", "Button", "Button GND", "D10 pad", "GND pad", "LED + 330 Ω", "LED K"] },
     { id: "hinge", title: "Route wires through the hinges", dur: 8, view: "F", callout: "hinge", parts: [],
       card: "Press the battery pair into the groove behind the brow bar. Leave a <b>service loop</b> at each hinge, then re-tighten the <b>hinge screws</b>.",
-      details: ["Fold each temple 20× and watch the wires: they must bend in the loop, not at a joint.", "Silicone-insulated 30 AWG survives flexing far better than PVC.", "Tack the groove closed with UV resin or a thin printed cover."] },
+      details: ["Short strips of <b>Kapton tape</b> hold the wires flat along the temple, so a tug pulls on the tape, not on a solder joint (strain relief).", "Fold each temple 20× and watch the wires: they must bend in the loop, not at a joint.", "Silicone-insulated 30 AWG survives flexing far better than PVC.", "Tack the groove closed with UV resin or a thin printed cover."] },
     { id: "pods", title: "Close the pods", dur: 9, view: "R", callout: "screw", parts: ["coverR", "coverL"],
-      card: "Kapton over the board backs, heat-shrink on every joint, then fit the <b>pod covers</b> and drive the <b>4 cover screws</b>.",
+      card: "Kapton over the board backs, heat-shrink on every joint, then fit the <b>pod covers (lids)</b> over the shells and drive the <b>4 cover screws</b> into the shells' screw bosses. The lids clamp the boards and battery onto their foam tape.",
       details: ["Continuity check before closing: BAT+↔BAT− and 3V3↔GND must NOT beep.", "The right cover has holes for the camera, LED and button and a slot for USB-C at the back.", "Hot-glue strain relief where wires leave each pod."] },
     { id: "charge", title: "Charging port check", dur: 7, view: "Rb", callout: "usb", parts: [],
       card: "The <b>USB-C</b> port must be reachable through the slot at the rear of the right pod. Plug in: the charge LED flashes while the LP502030 fills.",
@@ -3259,7 +3440,7 @@ if __name__ == &quot;__main__&quot;:
       details: ["Why: the ESP32-S3 only has Bluetooth LE, so it can't do A2DP music or HFP calls. This module pairs with the phone like an earbud; the XIAO keeps AI, HUD and touch over Wi-Fi.",
         "Module: ElectroDragon <b>NBL1111</b> (Beken BK3266, BT 5.2, A2DP 1.2, AVRCP 1.5, HFP 1.7), 25 × 13.5 × 2 mm, 3.3–4.2 V, ≤20 mA (wiki figures, not measured).",
         "Pads used: RX (11), P.P/CALL (6), VDD3IO (39), VMIC (31), MICP (30), GND (25, 16), VBAT (37), MUTE (15), AUDIOLN (32), AUDIOLP (33). Pad positions in the 3D view are schematic: go by the pin numbers.",
-        "Keep the PCB-antenna end free of metal, copper tape and the battery. A metal frame will cut the range."],
+        "Keep the PCB-antenna end free of metal, copper tape and the battery. A metal frame will cut the range.", "Mount it like the other boards: a small pad of double-sided foam tape inside the left pod shell; the long lid holds it down."],
       solder: G.BT.TIN.map(k => "BT " + G.BT.BP_NAME[k]) },
     { id: "btpower", title: "Power it from the switched LiPo", dur: 8, view: "L", callout: "iron", parts: [], diagram: "btpower",
       card: "<b>VBAT</b> to the slide switch's <b>OUT</b> pin (the same switched + that feeds the XIAO's BAT+) and <b>GND</b> to the battery's black lead. One switch turns everything on.",
@@ -3302,10 +3483,10 @@ if __name__ == &quot;__main__&quot;:
   // edit original cards
   const E = (id, f) => f(S[at(id)]);
   E("layout", s => { s.bom = s.bom.concat([["1x", "BK3266 module"], ["1x", "PAM8302"], ["1x", "mic"]]); s.details = s.details.concat(["Bluetooth variant extras: BK3266 module (NBL1111), PAM8302 amp, second bone transducer, 4.4 mm electret mic, BAT54 diode, 1 kΩ / 2.2 kΩ / 10 kΩ resistors, 2 × 1 µF caps."]); });
-  E("audio", s => { s.details = s.details.slice(0, 2).concat(["In this variant the MAX98357A carries Edith only (TTS, AI answers, Wi-Fi music, right ear). Phone audio gets its own amp in the left temple (BT steps)."]); });
+  E("audio", s => { s.details = s.details.slice(0, 3).concat(["In this variant the MAX98357A carries Edith only (TTS, AI answers, Wi-Fi music, right ear). Phone audio gets its own amp in the left temple (BT steps)."]); });
   E("touch", s => { s.details = s.details.map(d => d.replace("tap = play/pause, double-tap = wake Edith.", "tap = play/pause or answer a call, long-press = hang up / reject, double-tap = wake Edith (BT variant).")); });
   E("hinge", s => { s.card = "Press the battery pair <b>and the D9 control wire</b> into the brow groove. Leave a <b>service loop</b> at each hinge, then re-tighten the <b>hinge screws</b>."; });
-  E("pods", s => { s.dur = 12; s.card = "Kapton, heat-shrink, then the covers. The <b>long left cover</b> sits <b>flush</b> over the BT module, battery and amp. Drive all <b>6 cover screws</b>.";
+  E("pods", s => { s.dur = 12; s.card = "Kapton, heat-shrink, then the lids. The <b>long left cover</b> sits <b>flush</b> over the BT module, battery and amp. Drive all <b>6 cover screws</b> into the shells' screw bosses: the lids clamp every board and the LiPo onto their foam tape.";
     s.details = s.details.concat(["Flush mounting: sand the left cover's inner face until the module and amp sit under it with no rattle. Leave a thin plastic window (no paint, no foil) over the BT antenna end.", "Exposed on the left: slide switch on top, mic port underneath, transducer inside by the ear."]); });
   E("flash", s => { s.card = "Same board settings as before (<b>XIAO_ESP32S3</b>, <b>PSRAM: OPI</b>, <b>USB CDC On Boot</b>), but open <b>firmware/edith_glasses_bt/edith_glasses_bt.ino</b>. Set <code>BT_FIRST_SETUP 1</code> for one boot, then back to 0.";
     s.details = ["First boot with BT_FIRST_SETUP 1 renames the module to “EDITH”, sets mono output and single-ended mic, then reboots it. (Unverified: the module may want a different line ending; see the sketch.)"].concat(s.details); });
@@ -4001,6 +4182,108 @@ if __name__ == &quot;__main__&quot;:
   });
 })();
 
+/* EDITH "Start here: complete beginner" — tools list, desk-prototype wiring, manual page (shared by index.html + bluetooth.html) */
+(function () {
+  "use strict";
+  const $ = (s, r = document) => r.querySelector(s);
+  const CHECKED = "2026-10-26";
+  // Every URL returned HTTP 200 with curl on CHECKED. Prices are the listed single-unit USD prices seen on that page that day (before shipping/tax).
+  // est: true = estimate, no verified link.
+  const TOOLS = [
+    { item: "Temperature-controlled soldering iron: PINE64 Pinecil V2", why: "Heats in seconds, you set the exact temperature (≈330–350 °C for this solder), auto-sleeps when you put it down.", price: 25.99, url: "https://pine64.com/product/pinecil-smart-mini-portable-soldering-iron/", vendor: "PINE64 store", core: true },
+    { item: "USB-C PD charger for the iron: PinePower 65 W", why: "The Pinecil has no power brick. Skip this if you already own a USB-C laptop charger rated 65 W (20 V / 3 A).", price: 29.99, url: "https://pine64.com/product/pinepower-65w-gan-2c1a-charger-with-international-plugs/", vendor: "PINE64 store", core: true, skippable: true },
+    { item: "USB-C to USB-C silicone cable, 1 m (for the iron)", why: "Heat-resistant, flexible lead between charger and iron.", price: 3.99, url: "https://pine64.com/product/usb-type-c-to-usb-type-c-silicone-power-charging-cable-1-meter-length/", vendor: "PINE64 store", core: true },
+    { item: "Pinecil portable mini stand", why: "Somewhere safe to park a 350 °C tip. Never lay the iron on the desk.", price: 2.99, url: "https://pine64.com/product/pinecil-portable-mini-stand/", vendor: "PINE64 store", core: true },
+    { item: "Solder 0.5 mm, 60/40 rosin core, 50 g (#1886)", why: "Thin, leaded, flux inside: the easiest solder to learn with. Wash your hands after.", price: 9.25, url: "https://www.adafruit.com/product/1886", vendor: "Adafruit", core: true },
+    { item: "Flux pen, Chip Quik CQ4LF no-clean (#3468)", why: "Paint it on before every joint: solder flows instead of balling up.", price: 7.95, url: "https://www.adafruit.com/product/3468", vendor: "Adafruit", core: true },
+    { item: "Solder wick 1.5 mm (#149)", why: "Copper braid that soaks up extra solder and fixes bridges.", price: 3.50, url: "https://www.adafruit.com/product/149", vendor: "Adafruit", core: true },
+    { item: "Fine-tip tweezers, ESD safe (#421)", why: "Hold tiny wires and parts; your fingers will be too hot and too big.", price: 3.95, url: "https://www.adafruit.com/product/421", vendor: "Adafruit", core: true },
+    { item: "Flush diagonal cutters (#152)", why: "Trim wires and component legs flat.", price: 7.25, url: "https://www.adafruit.com/product/152", vendor: "Adafruit", core: true },
+    { item: "Helping third hand with magnifier (#291)", why: "Two clips hold the work so both your hands are free (iron + solder).", price: 6.95, url: "https://www.adafruit.com/product/291", vendor: "Adafruit", core: true },
+    { item: "Hakko brass sponge tip cleaner (#1172)", why: "Wipe the tip between joints. Keeps it shiny so heat flows.", price: 10.95, url: "https://www.adafruit.com/product/1172", vendor: "Adafruit", core: true },
+    { item: "Digital multimeter 9205B+ (#2034)", why: "Beep test for shorts, check battery polarity and voltage. Non-negotiable before any battery goes in.", price: 17.50, url: "https://www.adafruit.com/product/2034", vendor: "Adafruit", core: true },
+    { item: "Full-size breadboard, 830 points (#239)", why: "Push-in prototype board: build the whole circuit on the desk, no soldering.", price: 5.95, url: "https://www.adafruit.com/product/239", vendor: "Adafruit", core: true },
+    { item: "Male/male jumper wires, 40 × 6\" (#758)", why: "The wires for the breadboard.", price: 3.95, url: "https://www.adafruit.com/product/758", vendor: "Adafruit", core: true },
+    { item: "USB-A to USB-C data cable, 1 m (#4474)", why: "Connects the XIAO to your computer. Has data wires (many phone cables are charge-only). If your computer only has USB-C ports, get a C-to-C data cable instead (e.g. Adafruit #4199, $9.95).", price: 4.95, url: "https://www.adafruit.com/product/4474", vendor: "Adafruit", url2: "https://www.adafruit.com/product/4199", vendor2: "C-to-C #4199", core: true },
+    { item: "Break-away 0.1\" male header pins, 10-pack (#392)", why: "Pins to solder onto the XIAO and breakouts so they plug into the breadboard (spares in case yours didn't come with any).", price: 4.95, url: "https://www.adafruit.com/product/392", vendor: "Adafruit", core: true },
+    { item: "Beginner soldering practice kit: SparkFun WeevilEye", why: "A 10–20 minute through-hole kit (iron, solder and cutters not included). Solder this before you touch any real EDITH part.", price: 9.95, url: "https://www.sparkfun.com/sparkfun-weevileye-beginner-soldering-kit.html", vendor: "SparkFun", core: true },
+    { item: "Safety glasses", why: "Clipped leads and solder spatter fly. Wear them every time.", price: 5.10, url: "https://www.sparkfun.com/sparkfun-safety-glasses.html", vendor: "SparkFun", core: true },
+    { item: "Ventilation: small desk fan + open window", why: "Pulls flux smoke away from your face. Any fan you already own works.", priceTxt: "≈ $0–20 (estimate)", est: true, vendor: "anything you have", core: false },
+    { item: "Fume extractor: Hakko FA-400 (optional upgrade)", why: "Fan + carbon filter that sucks the smoke away. Nice to have, not required for a small project.", price: 81.67, url: "https://hakkousa.com/products/fa-400-smoke-absorber.html", vendor: "Hakko USA", core: false },
+    { item: "Second practice kit: SparkFun Simon Says through-hole (optional)", why: "More joints (a 28-pin chip, LEDs, switches) and you end up with a working game.", price: 29.95, url: "https://www.sparkfun.com/sparkfun-simon-says-through-hole-soldering-kit.html", vendor: "SparkFun", core: false }
+  ];
+  const sum = f => Math.round(TOOLS.filter(f).reduce((a, t) => a + (t.price || 0), 0) * 100) / 100;
+  const TOTAL_CORE = sum(t => t.core), TOTAL_NOCHG = sum(t => t.core && !t.skippable);
+  const money = n => "$" + n.toFixed(2);
+  const totalLine = () => `Rough tools total: <b>${money(TOTAL_NOCHG)}</b> if you already own a 65 W USB-C charger, <b>${money(TOTAL_CORE)}</b> with the PinePower charger. Add shipping from three stores (PINE64, Adafruit, SparkFun; not included) and a fan if you don't have one. Optional extras: Hakko FA-400 extractor $81.67, Simon Says kit $29.95. Listed prices checked ${CHECKED}; they change.`;
+
+  // Desk prototype wiring: identical pins to the glasses build (see GPIO map), so nothing changes when you shrink it
+  const PROTO = [
+    ["Power", "XIAO USB-C", "your computer", "USB data cable", "The whole desk prototype runs from USB. <b>No LiPo on the desk</b> (BAT pads stay empty until week 4)."],
+    ["Breadboard rails", "3V3 / GND", "red (+) / blue (−) rail", "red / black", "Jumper XIAO 3V3 → red rail and GND → blue rail. Every part below takes power from the rails."],
+    ["OLED (SSD1306)", "VCC · GND", "3V3 rail · GND rail", "red · black", "3.3 V only."],
+    ["OLED (SSD1306)", "SDA · SCL", "D4 (GPIO5) · D5 (GPIO6)", "blue · yellow", "I²C address 0x3C."],
+    ["Heart rate (MAX30101/02)", "VIN · GND", "3V3 rail · GND rail", "red · black", ""],
+    ["Heart rate (MAX30101/02)", "SDA · SCL", "D4 (GPIO5) · D5 (GPIO6)", "blue · yellow", "Shares the same two wires as the OLED (address 0x57). Put both SDA wires in one breadboard row, both SCL wires in another."],
+    ["I²S amp (MAX98357A)", "VIN · GND", "3V3 rail · GND rail", "red · black", "GAIN and SD: leave unconnected."],
+    ["I²S amp (MAX98357A)", "DIN · BCLK · LRC", "D2 (GPIO3) · D6 (GPIO43) · D7 (GPIO44)", "green · purple · orange", ""],
+    ["Speaker / bone transducer", "+ · −", "amp + · amp −", "pink", "Never connect either speaker lead to GND."],
+    ["Touch pads (copper foil on card)", "pad A · B · C", "D0 (GPIO1) · D1 (GPIO2) · D3 (GPIO4)", "white", "Three foil squares on cardboard, ~2 mm apart, one jumper each (alligator clip or a quick low-heat solder). Don't touch them while the XIAO boots: it measures the 'untouched' value then."],
+    ["Push button", "leg 1 · leg 2", "D8 (GPIO7) · GND rail", "cyan · black", "Straddle the breadboard's centre gap."],
+    ["Status LED", "long leg (+) · short leg (−)", "D10 (GPIO9) through a 330 Ω resistor · GND rail", "cyan · black", "The resistor stops the LED burning out."]
+  ];
+  const PROTO_BT = [
+    ["★ BT module (BK3266), hypothetical", "VBAT · GND", "LiPo + through the slide switch · common GND", "red · black", "Needs 3.3–4.2 V: the XIAO's 3V3 pin is at the very bottom of that range and its 5V pin is too high, so this is the one place the battery joins the desk. Do it <b>last</b>, after the LiPo safety rules, switch OFF while wiring."],
+    ["★ BT module (BK3266), hypothetical", "RX", "D9 (GPIO8) through a 1 kΩ resistor", "cyan", "UART commands, 9600 baud. Same pin as the glasses build."],
+    ["★ PAM8302 amp, hypothetical", "A+ · A− · SD", "module AUDIOLP · AUDIOLN · MUTE", "pink · grey", "VIN → switched LiPo +, GND → common GND; + / − → second transducer (never to GND)."]
+  ];
+  function protoRows(bt) {
+    return PROTO.concat(bt ? PROTO_BT : []).map(r => `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td class="pin" style="white-space:normal">${r[2]}</td><td>${r[3]}</td><td class="small">${r[4]}</td></tr>`).join("");
+  }
+  function toolRows(linkCls) {
+    return TOOLS.map(t => {
+      const link = t.url ? `<a href="${t.url}" target="_blank" rel="noopener">${t.vendor}</a>${t.url2 ? ` · <a href="${t.url2}" target="_blank" rel="noopener">${t.vendor2}</a>` : ""}` : `<span class="${linkCls}">${t.vendor} (no link)</span>`;
+      const tag = t.core ? (t.skippable ? '<span class="pill opt">skip if you have one</span>' : '<span class="pill req">get this</span>') : '<span class="pill opt">optional</span>';
+      return `<tr><td><b>${t.item}</b><br>${tag}<br><small>${t.why}</small></td><td class="price">${t.priceTxt || money(t.price)}</td><td>${link}</td></tr>`;
+    }).join("");
+  }
+  const isBT = () => !!(window.FLAT_GEO && window.FLAT_GEO.BT);
+
+  /* manual page (light paper style) */
+  function page(letter) {
+    const bt = isBT();
+    const weeks = [
+      ["Week 1", "Practice soldering", "Get the tools, solder the practice kit, then practise on spare header pins and scrap wire until joints come out shiny every time."],
+      ["Week 2", "Coding basics", "Install Arduino IDE 2, make the XIAO blink its LED, then flash the EDITH firmware and read its messages in the Serial Monitor."],
+      ["Week 3", "Desk prototype", "Everything on a breadboard, no soldering into the glasses: OLED, heart rate, amp + speaker, touch pads, then the AI backend on your computer." + (bt ? " Bluetooth version: add the BT module on the desk <b>last</b>." : "")],
+      ["Week 4+", "Shrink into the frame", "Only once the desk version works: pod shells, foam tape, short wires, battery, lids. Follow the 16 steps of this manual."]
+    ];
+    return `<div class="pg-num">${letter}</div><h2>★ Start here: complete beginner</h2>
+      <p class="lead">Never soldered, coded or built electronics? Good, this page is for you. Honest rating: this project is about <b>8/10</b> hard for a first build. It's doable if you go in stages and test each one before moving on.</p>
+      <h3>Your plan</h3><ol class="pg-weeks">${weeks.map(w => `<li><b>${w[0]} · ${w[1]}.</b> ${w[2]}</li>`).join("")}</ol>
+      <h3>Tools to buy <span class="cnt">${TOOLS.filter(t => t.core).length} items</span></h3>
+      <table class="pg-table"><tr><th>Tool</th><th>≈ Price</th><th>Link</th></tr>${toolRows("small")}</table>
+      <p class="small">${totalLine()}</p>
+      <h3>Five safety rules</h3><ul>
+        <li>The iron tip is ~350 °C: it lives in its stand, never on the desk.</li>
+        <li>LiPo batteries can catch fire if punctured, squeezed, shorted or overheated. Keep the iron away from them and cut their wires one at a time.</li>
+        <li>Wear safety glasses. Open a window and use a fan to move smoke away.</li>
+        <li>Leaded solder: wash your hands after, no food or drink at the bench.</li>
+        <li>Smell burning, or a part or battery gets hot or puffy? Unplug, step back, ask for help.</li></ul>
+      <h3>Read the full beginner guide</h3>
+      <div class="pg-links">${[["beginner", "★ Plan & expectations"], ["beg-tools", "Tools & prices"], ["beg-solder", "Soldering 101"], ["beg-code", "Coding 101 + backend"], ["beg-proto", "Desk prototype wiring"], ["beg-mount", "How parts are held in place"], ["beg-glossary", "Glossary"], ["beg-mistakes", "Common mistakes & help"]].map(([id, t]) => `<button data-doc="${id}">${t} →</button>`).join("")}</div>`;
+  }
+
+  function render() {
+    const bt = isBT();
+    const tb = $("#begTools tbody"); if (tb) tb.innerHTML = toolRows("muted");
+    const tt = $("#begToolsTotal"); if (tt) tt.innerHTML = totalLine();
+    const pb = $("#begProto tbody"); if (pb) pb.innerHTML = protoRows(bt);
+  }
+  window.EDITH_BEGINNER = { TOOLS, PROTO, PROTO_BT, page, TOTAL_CORE, TOTAL_NOCHG };
+  document.addEventListener("DOMContentLoaded", render);
+})();
+
 /* EDITH flat-pack guide — UI controller (classic script; owns the build clock) */
 (function () {
   "use strict";
@@ -4089,12 +4372,14 @@ if __name__ == &quot;__main__&quot;:
 
   /* ---------------- manual viewer ---------------- */
   const APPX = [
-    { title: "Everything it can do", key: "features" }, { title: "Pairing & use", key: "pair" }, { title: "Parts list", key: "bom" }, { title: "GPIO map", key: "gpio" }, { title: "Docs & code", key: "docs" }
+    { title: "★ Start here: complete beginner", key: "beginner" }, { title: "Everything it can do", key: "features" }, { title: "Pairing & use", key: "pair" }, { title: "Parts list", key: "bom" }, { title: "GPIO map", key: "gpio" }, { title: "Docs & code", key: "docs" }
   ];
   const NPAGES = 1 + STEPS.length + APPX.length;
+  const BEG_PAGE = () => 1 + STEPS.length + 1 + APPX.findIndex(a => a.key === "beginner");
   function pageHTML(p) {
     if (p === 1) {
       return `<div class="pg-num">EDITH</div><h2>EDITH + Bluetooth audio: assembly manual (hypothetical variant)</h2>
+        <a href="#" class="pg-beg" data-page="${BEG_PAGE()}"><b>★ Never soldered, coded or built electronics?</b> Start here: tools, soldering, coding, a desk prototype first. <span>p.${BEG_PAGE()} →</span></a>
         <div class="pg-art">${M.draw(STEPS.length - 1, { w: 640, h: 380, tag: "cover" })}</div>
         <p>XIAO ESP32-S3 Sense · EEMB LP502030 · SSD1306 HUD · MAX30102 · MAX98357A · copper-foil touch strip · Rx / photochromic lenses · <b>+ BK3266 classic-BT module · PAM8302 · call mic · second bone transducer</b>.</p>
         <ol class="pg-toc">${STEPS.map(s => `<li><a href="#" data-page="${s.page}">${s.n}. ${s.title}</a><span>p.${s.page}</span></li>`).join("")}
@@ -4113,12 +4398,13 @@ if __name__ == &quot;__main__&quot;:
     }
     const a = APPX[p - 2 - STEPS.length];
     const D = window.EDITH_DOCS;
+    if (a.key === "beginner" && window.EDITH_BEGINNER) return window.EDITH_BEGINNER.page("★");
     if (a.key === "features" && window.BT_PAGES) return window.BT_PAGES.features();
     if (a.key === "pair" && window.BT_PAGES) return window.BT_PAGES.pair();
     if (a.key === "bom" && D) return `<div class="pg-num">A</div><h2>Parts list</h2><p class="small">Prices are approximate (checked 2026-10-22/23; ★ BT parts 2026-10-24). Links verified at build time.</p><table class="pg-table"><tr><th>Part</th><th>Qty</th><th>≈ Price</th><th>Link</th></tr>${D.BOM.map(b => `<tr><td><b>${b.part}</b><br><small>${b.purpose}</small></td><td>${b.qty}</td><td>${b.price}</td><td>${b.url ? `<a href="${b.url}" target="_blank" rel="noopener">${b.vendor}</a>` : b.vendor}${b.url2 ? ` · <a href="${b.url2}" target="_blank" rel="noopener">${b.vendor2 || "alt"}</a>` : ""}</td></tr>`).join("")}</table>`;
     if (a.key === "gpio" && D) return `<div class="pg-num">B</div><h2>GPIO map</h2><table class="pg-table"><tr><th>Pin</th><th>GPIO</th><th>Use</th><th>Connects to</th></tr>${D.GPIO.map(r => `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[3]}</td><td>${r[4]}<br><small>${r[5]}</small></td></tr>`).join("")}</table>`;
     return `<div class="pg-num">C</div><h2>Docs &amp; code</h2><p>Everything from the long-form guide — firmware, ESPHome touch YAML, FastAPI backend, the Edith personality prompt, Tesla Fleet API &amp; BLE, soldering, safety and sources — lives in the Docs drawer, with copy buttons on every file.</p>
-      <div class="pg-links">${[["bt-variant", "★ Bluetooth module & wiring"], ["bt-features", "★ Everything it can do"], ["bt-pair", "★ Pairing & use"], ["bt-firmware", "★ BT firmware"], ["overview", "Overview & features"], ["parts", "Parts & prices"], ["gpio", "Master GPIO table"], ["wiring", "Wiring diagrams"], ["soldering", "Soldering guide"], ["power", "Battery & charging"], ["hud", "HUD optics"], ["touch", "Touch strip gestures"], ["lenses", "Prescription lenses"], ["firmware", "Firmware (Arduino)"], ["backend", "Backend (FastAPI)"], ["personality", "Personality prompt"], ["tesla-fleet", "Tesla Fleet API"], ["tesla-ble", "Tesla BLE"], ["safety", "Safety"], ["sources", "Sources & verification"]].map(([id, t]) => `<button data-doc="${id}">${t} →</button>`).join("")}</div>`;
+      <div class="pg-links">${[["beginner", "★ Start here: complete beginner"], ["bt-variant", "★ Bluetooth module & wiring"], ["bt-features", "★ Everything it can do"], ["bt-pair", "★ Pairing & use"], ["bt-firmware", "★ BT firmware"], ["overview", "Overview & features"], ["parts", "Parts & prices"], ["gpio", "Master GPIO table"], ["wiring", "Wiring diagrams"], ["soldering", "Soldering guide"], ["power", "Battery & charging"], ["hud", "HUD optics"], ["touch", "Touch strip gestures"], ["lenses", "Prescription lenses"], ["firmware", "Firmware (Arduino)"], ["backend", "Backend (FastAPI)"], ["personality", "Personality prompt"], ["tesla-fleet", "Tesla Fleet API"], ["tesla-ble", "Tesla BLE"], ["safety", "Safety"], ["sources", "Sources & verification"]].map(([id, t]) => `<button data-doc="${id}">${t} →</button>`).join("")}</div>`;
   }
   function showPage(p) {
     st.page = Math.max(1, Math.min(NPAGES, p));
@@ -4140,6 +4426,7 @@ if __name__ == &quot;__main__&quot;:
 
   function initUI() {
     buildTimeline(); syncPlay(); FLAT.setView(st.view);
+    $("#ui-track").setAttribute("aria-valuemax", Math.round(TOTAL));
     $("#ui-play").onclick = () => FLAT.play();
     $("#ui-prev").onclick = () => FLAT.goStep(st.step - 1);
     $("#ui-next").onclick = () => FLAT.goStep(st.step + 1);
@@ -4158,6 +4445,8 @@ if __name__ == &quot;__main__&quot;:
     });
     $("#ui-docsClose").onclick = () => openDocs(false);
     $("#ui-cornerDocs").onclick = () => openDocs(true);
+    $("#ui-beginner").onclick = () => { openManual(false); openDocs(true, "beginner"); };
+    $("#ui-cornerBeg").onclick = () => { openManual(false); openDocs(true, "beginner"); };
     $("#ui-docsNav").addEventListener("click", e => { const a = e.target.closest("a[href^='#']"); if (!a) return; e.preventDefault(); const el = document.getElementById(a.getAttribute("href").slice(1)); el && el.scrollIntoView({ behavior: "smooth", block: "start" }); });
     $("#ui-iFit").onclick = () => { FLAT.freeCam = false; document.body.classList.remove("freecam"); };
     $("#ui-iCam").onclick = () => { FLAT.freeCam = !FLAT.freeCam; document.body.classList.toggle("freecam", FLAT.freeCam); };
@@ -4546,8 +4835,25 @@ const BUILD = {
   lens() { const R = G.RIM; const geo = new THREE.ExtrudeGeometry(roundRectShape(R.iw + 0.014, R.ih + 0.014, R.ir + 0.006), { depth: 0.012, bevelEnabled: false, curveSegments: 12 }); geo.translate(0, 0, -0.006);
     const m = new THREE.MeshLambertMaterial({ color: "#d9eef4", transparent: true, opacity: 0.26, depthWrite: false }); const l = mesh(geo, m, false); noOL(l); const g = new THREE.Group(); g.add(l); g.userData.mat = m; return g; },
   plug() { const g = new THREE.Group(); const b = box(0.06, 0.08, 0.09, M("#2c2c30"), 0.02); at(b, 0, 0, -0.04); g.add(b); const t = box(0.028, 0.07, 0.04, METAL, 0.012); at(t, 0, 0, 0.02); g.add(t); return g; },
+  podR() { return podShell("podR", -1); },
+  podL() { return podShell("podL", 1); },
   frame() { return null; }
 };
+/* printed pod shell: base plate (bonded to the temple) + top/bottom rails + rear wall + screw bosses for the lid */
+const PLA_SHELL = M("#c9d0da");
+function podShell(id, side) {
+  const p = G.PARTS[id], c = p.c, s = p.s, g = new THREE.Group();
+  g.add(box(s[0], s[1], s[2], PLA_SHELL, 0.0015));
+  const d = 0.028, rx = side * (s[0] / 2 + d / 2);
+  [-1, 1].forEach(e => { const r = box(d, 0.006, s[2], PLA_SHELL, 0.002); at(r, rx, e * (s[1] / 2 - 0.003), 0); g.add(r); });
+  const back = box(d, s[1], 0.006, PLA_SHELL, 0.002); at(back, rx, 0, -s[2] / 2 + 0.003); g.add(back);
+  Object.values(G.SCREWS).filter(sc => sc.step === "pods" && Math.sign(sc.c[0]) === side).forEach(sc => {
+    const lx = sc.c[0] - c[0], ly = sc.c[1] - c[1] - 0.009, lz = sc.c[2] - c[2];
+    const boss = cyl(0.012, 0.012, 0.012, PLA_SHELL, 12); at(boss, lx, ly, lz); g.add(boss);
+    const rib = box(Math.abs(lx), 0.006, 0.01, PLA_SHELL); at(rib, lx / 2, ly, lz); g.add(rib);
+  });
+  return g;
+}
 // HUD text texture (OLED + virtual image)
 const hudTex = canvasTex(512, 256, (g, W, H) => { g.fillStyle = "#000"; g.fillRect(0, 0, W, H); });
 function drawHud(text, sub) { const c = hudTex.userData.ctx; c.fillStyle = "#000"; c.fillRect(0, 0, 512, 256); c.fillStyle = "#7dfcff"; c.font = "700 74px 'JetBrains Mono', monospace"; c.fillText(text, 24, 110); c.font = "500 46px 'JetBrains Mono', monospace"; c.fillStyle = "#c8ffff"; c.fillText(sub, 24, 200); hudTex.needsUpdate = true; }
@@ -4632,7 +4938,7 @@ const JOINTS = [], WIRE_RT = {}, SCREW_RT = [], GUIDES = [], LABELS = [], FX = [
 const ghostMat = new THREE.MeshBasicMaterial({ color: 0xfff6e6, transparent: true, opacity: 0.3, depthWrite: false });
 const APPROACH = { frame: [0, 1, 0], xiao: [-1, 0.3, 0], sense: [-1, 0.2, 0], cam: [0, 0.2, 1], antenna: [0, 1, 0], battery: [1, 0.3, 0], switch: [0, 1, 0], oled: [0, 1, 0], hud: [0, 1, 0.3],
   hr: [1, 0.3, 0], amp: [1, 0.3, 0], spk: [1, 0.2, 0], padA: [-1, 0.2, 0], padB: [-1, 0.2, 0], padC: [-1, 0.2, 0], button: [0, 1, 0], led: [0, 0.2, 1], coverR: [-1, 0.25, 0], coverL: [1, 0.25, 0],
-  lensR: [0, 0.15, 1], lensL: [0, 0.15, 1], plug: [0, 0.05, -1] };
+  lensR: [0, 0.15, 1], lensL: [0, 0.15, 1], plug: [0, 0.05, -1], podR: [-1, 0.25, 0], podL: [1, 0.25, 0] };
 const PIECE_IDS = [];
 let appearIdx = 0;
 function makePart(id) {
@@ -4696,8 +5002,8 @@ function addFlight(rt, t0, t1, from, to, opt = {}) {
 /* step-plan API */
 const ironKeys = [], driverKeys = [], tweezKeys = [];
 let driverSpin = 0;
-function api(stepId) {
-  const s0 = S0(stepId);
+function api(stepId, off = 0) {
+  const s0 = S0(stepId) + off;
   const A = {
     s0,
     fly(id, a, b, opt = {}) {
@@ -4730,11 +5036,20 @@ function api(stepId) {
     screw(id, a, b) { const sc = G.SCREWS[id]; SCREW_RT.push(makeScrew(sc, s0 + a, s0 + b)); return A; },
     cam(a, p, tg) { CAMKEYS.push({ t: s0 + a, p: V(p), tg: V(tg) }); return A; },
     label(a, b, anchor, html, cls) { LABELS.push({ t0: s0 + a, t1: s0 + b, anchor: typeof anchor === "function" ? anchor : () => rig.localToWorld(_v.copy(anchor)), html, cls }); return A; },
-    fx(fn) { FX.push(fn); return A; }
+    fx(fn) { FX.push(fn); return A; },
+    tape(id, a, b, opt = {}) { // foam / Kapton tape pad that drops onto the frame and stays
+      const d = G.TAPE[id], m = mesh(new THREE.BoxGeometry(...d.s), d.kapton ? KAPTON_MAT : FOAM_MAT, false);
+      m.visible = false; rig.add(m); if (d.kapton) noOL(m);
+      TAPES.push({ id, m, p: V(d.c), from: V(d.from), t0: s0 + a, t1: s0 + b, until: d.kapton ? "pods" : null });
+      if (d.name && opt.label !== false) LABELS.push({ t0: s0 + a, t1: s0 + b + (opt.hold || 2.2), anchor: () => rig.localToWorld(_v.set(...d.c)).add(_lo.set(0, 0.05, 0)), html: `${d.name} <code>${d.code}</code>`, cls: "tape" });
+      return A;
+    }
   };
   return A;
 }
 const _v = new THREE.Vector3(), _lo = new THREE.Vector3();
+const TAPES = [];
+const FOAM_MAT = M("#f7f4ec"), KAPTON_MAT = new THREE.MeshLambertMaterial({ color: "#e0962e", transparent: true, opacity: 0.88 });
 
 /* wires */
 const tubeR = 0.0042;
@@ -4787,17 +5102,24 @@ function carry(rt, t0, t1) {
 (function plan() {
   // 1 · lay out
   let A = api("layout");
-  const order = ["xiao", "sense", "cam", "antenna", "oled", "hud", "lensR", "lensL", "battery", "switch", "padA", "padB", "padC", "button", "led", "ttp", "coverR", "coverL", "hr", "amp", "spk", "plug"];
+  const order = ["podR", "podL", "xiao", "sense", "cam", "antenna", "oled", "hud", "lensR", "lensL", "battery", "switch", "padA", "padB", "padC", "button", "led", "ttp", "coverR", "coverL", "hr", "amp", "spk", "plug"];
   order.forEach((id, i) => { PR[id].appear = A.s0 + 0.3 + i * 0.2; LABELS.push({ t0: PR[id].appear + 0.2, t1: PR[id].appear + 1.3, anchor: () => PR[id].obj.getWorldPosition(_v).add(_lo.set(0, 0.06, 0)), html: `${G.PARTS[id].name} <code>${G.PARTS[id].code}</code>` }); });
   PR.frame.appear = A.s0 + 5.0;
   A.fly("frame", 5.2, 6.9, { lift: 0.1, reach: 0.6, label: { name: "Frame", code: "front + temples", n: "1/1" } })
     .cam(0, [4.0, 3.5, 6.2], [0, 0.3, -0.4]).cam(3.6, [3.7, 2.6, 4.0], [0, 0.15, 0.05]).cam(7.9, [2.35, 2.0, 2.65], [0, 0.25, -0.35]);
   // 2 · tin pads
   A = api("tin");
+  A.fly("podR", 0.3, 1.6, { label: { name: "Right pod shell", code: "epoxy / UV resin to the temple", n: "" } }).tape("foamR", 1.8, 2.6)
+    .cam(0.0, [-2.0, 1.05, 0.75], [-0.74, 0.36, -0.32]).cam(2.9, [-1.6, 0.85, 0.45], [-0.75, 0.36, -0.32]);
+  A = api("tin", 3.0);
   A.fly("xiao", 0.4, 2.2).solder(G.TIN, 2.8, 0.45, "tin")
     .cam(1.2, [-2.1, 1.15, 0.9], [-0.62, 0.35, -0.35]).cam(8.9, [-1.5, 0.72, 0.28], [-0.77, 0.38, -0.34]);
   // 3 · battery
   A = api("battery");
+  A.fly("podL", 0.3, 1.6, { label: { name: "Left pod shell", code: "epoxy / UV resin to the temple", n: "" } }).tape("foamL", 1.8, 2.6, { hold: 2.6 })
+    .label(2.8, 5.4, V(0.80, G.TY + 0.14, -0.80), "Snug pocket <code>never squeeze or hot-glue a LiPo</code>", "joint")
+    .cam(0.0, [1.95, 1.0, -0.35], [0.76, 0.36, -0.78]).cam(2.9, [1.6, 0.85, -0.5], [0.77, 0.36, -0.8]);
+  A = api("battery", 3.0);
   A.fly("battery", 0.3, 1.9).fly("switch", 1.4, 2.9, { tweezers: true })
     .wire("p_bat", 3.0, 3.6).solder(["p_bat:b"], 3.8, 1).solder(["p_sw:a"], 4.5, 1)
     .wire("p_sw", 4.8, 6.6).wire("p_gnd", 5.0, 6.8).solder(["p_sw:b", "p_gnd:b"], 7.6, 0.8)
@@ -4826,6 +5148,8 @@ function carry(rt, t0, t1) {
     .cam(1.0, [0.3, 1.0, -0.2], [-0.68, 0.33, -0.58]).cam(8.9, [-0.05, 0.75, -0.78], [-0.69, 0.33, -0.6]);
   // 8 · audio
   A = api("audio");
+  A.tape("foamAmp", 0.2, 1.2).cam(0.0, [0.25, 1.0, 0.05], [-0.69, 0.32, -0.36]);
+  A = api("audio", 1.5);
   A.fly("amp", 0.3, 1.7).fly("spk", 1.4, 2.8)
     .wire("a_lrc", 2.9, 4.2).wire("a_bclk", 3.05, 4.35).wire("a_din", 3.2, 4.5).wire("a_gnd", 3.35, 4.65).wire("a_vin", 3.5, 4.8).wire("s_p", 3.7, 4.9).wire("s_n", 3.85, 5.05)
     .solder(["a_lrc:a", "a_bclk:a", "a_din:a", "a_gnd:a", "a_vin:a", "a_lrc:b", "a_bclk:b", "a_din:b", "a_gnd:b", "a_vin:b", "s_p:a", "s_n:a", "s_p:b", "s_n:b"], 5.2, 0.32)
@@ -4846,6 +5170,7 @@ function carry(rt, t0, t1) {
     .cam(1.0, [-1.55, 1.15, 0.65], [-0.8, 0.42, -0.3]).cam(7.9, [-1.3, 0.88, 0.3], [-0.8, 0.42, -0.3]);
   // 11 · hinge routing
   A = api("hinge");
+  A.tape("kapL", 0.4, 1.2, { hold: 2.6 }).tape("kapB", 0.7, 1.5, { label: false }).tape("kapR", 1.0, 1.8, { label: false });
   GUIDES.push(guideLine(WIRE_RT.p_sw.curve.getPoints(120), A.s0 + 0.4, A.s0 + 7.8, rig)); GUIDES[GUIDES.length - 1].lead = 2.6;
   A.label(1.0, 7.8, V(0.69, G.TY + 0.075, -0.05), "Service loop <code>L hinge</code>").label(1.0, 7.8, V(-0.69, G.TY + 0.075, -0.05), "Service loop <code>R hinge</code>")
     .label(1.4, 7.8, V(0, 0.48, -0.045), "Brow groove <code>BAT+ / BAT−</code>")
@@ -4854,7 +5179,10 @@ function carry(rt, t0, t1) {
     .cam(5.7, [-1.3, 0.85, 0.55], [-0.7, 0.38, -0.05]).cam(7.9, [-1.22, 0.8, 0.5], [-0.7, 0.38, -0.05]);
   // 12 · pods
   A = api("pods");
-  A.fly("coverR", 0.4, 2.1).fly("coverL", 1.6, 3.3).screw("cR1", 3.8, 4.8).screw("cR2", 5.0, 6.0).screw("cL1", 6.6, 7.4).screw("cL2", 7.7, 8.5)
+  A.label(0.2, 2.4, V(-0.80, G.TY + 0.22, -0.33), "Lid = printed cover <code>clamps parts on their foam tape</code>", "tape")
+    .label(2.2, 4.8, V(-0.84, G.TY + 0.20, -0.205), "Screws bite into the shell's bosses <code>M1.4</code>", "tape")
+    .label(3.3, 8.9, V(0.80, G.TY + 0.17, -0.80), "Lid closed <code>LiPo held by pocket + foam, not glue</code>", "tape")
+    .fly("coverR", 0.4, 2.1).fly("coverL", 1.6, 3.3).screw("cR1", 3.8, 4.8).screw("cR2", 5.0, 6.0).screw("cL1", 6.6, 7.4).screw("cL2", 7.7, 8.5)
     .cam(1.0, [-2.3, 1.7, 1.2], [0, 0.35, -0.5]).cam(3.3, [-2.25, 1.65, 1.15], [0, 0.35, -0.5]).cam(3.9, [-1.5, 1.05, 0.25], [-0.82, 0.42, -0.33]).cam(6.0, [-1.45, 1.0, 0.2], [-0.82, 0.42, -0.33])
     .cam(6.6, [1.65, 1.05, -0.45], [0.79, 0.38, -0.8]).cam(8.9, [1.55, 0.98, -0.5], [0.79, 0.38, -0.8]);
   // 13 · charging port
@@ -4936,7 +5264,8 @@ JOINTS.forEach(j => { if (j.kind !== "tin") HW_EVENTS.push({ t: j.t, cat: "Solde
 ["padA", "padB", "padC"].forEach(id => HW_EVENTS.push({ t: PR[id].flights[0].t1, cat: "Foil pads" }));
 SCREW_RT.forEach(s => HW_EVENTS.push({ t: s.t1, cat: "Screws" }));
 Object.values(WIRE_RT).forEach(w => HW_EVENTS.push({ t: w.t1, cat: "Wires" }));
-const HW_CATS = ["Solder joints", "Wires", "Foil pads", "Screws"];
+TAPES.forEach(tp => HW_EVENTS.push({ t: tp.t1, cat: "Tape pads" }));
+const HW_CATS = ["Solder joints", "Wires", "Foil pads", "Screws", "Tape pads"];
 const HW_TOTAL = HW_EVENTS.length;
 const PIECE_T = PIECE_IDS.map(id => PR[id].flights[0].t1);
 function counts(t) {
@@ -5228,6 +5557,9 @@ function evaluate(t, dt) {
   // screws
   SCREW_RT.forEach(s => { const on = t >= s.t0 - 0.45; s.g.visible = on; if (!on) return; const f = clamp01((t - s.t0) / (s.t1 - s.t0));
     const pre = clamp01((t - s.t0 + 0.45) / 0.45); s.g.position.copy(s.p).add(_w.set(0, 0.045 * (1 - pre) + 0.012 * (1 - f), 0)); s.g.rotation.y = f * Math.PI * 8; });
+  // foam / Kapton tape pads (Kapton hides with the wires once the pods are closed)
+  TAPES.forEach(tp => { const on = t >= tp.t0 && (!tp.until || t < tPods); tp.m.visible = on; if (!on) return;
+    const f = easeIO2(clamp01((t - tp.t0) / (tp.t1 - tp.t0))); tp.m.position.copy(tp.p).addScaledVector(tp.from, 1 - f); });
   // tools
   trackAt(IRON_T, t, toolPose); iron.position.copy(toolPose.p); iron.quaternion.copy(toolPose.q);
   iron.userData.glow.material.opacity = toolPose.rest ? 0.25 : 0.55 + 0.45 * toolPose.touch; iron.userData.glow.scale.setScalar(toolPose.touch ? 0.075 : 0.05);

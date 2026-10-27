@@ -20,6 +20,10 @@ It runs from `file://` or any static host (GitHub Pages, Netlify, S3…) and wor
   HUD optics, audio, heart rate, touch strip, lenses, firmware, backend, features, personality prompt, Tesla Fleet API
   and BLE, and safety. Every source file is embedded with a copy button.
 - `build-guide.html` is the classic long-form page, kept as a static fallback.
+- **★ Start here: complete beginner** (both `index.html` and `bluetooth.html`): the amber button on the start screen, the
+  first manual appendix page and the first Docs section. It covers a staged 4-week plan, a verified tools list with prices,
+  Soldering 101, Coding 101 + backend, desk-prototype wiring, how parts are held in place, a glossary and common mistakes.
+  Sources: `tools/flat/beginner.html` (docs section) and `tools/flat/beginner.js` (tools data, wiring table, manual page).
 
 The 16 build steps:
 1. Lay out the parts
